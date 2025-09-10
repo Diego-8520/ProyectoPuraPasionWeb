@@ -1,0 +1,23 @@
+# .NET build outputs
+**/bin/
+**/obj/
+*.user
+*.suo
+*.cache
+
+# IDE specific files
+.vs/
+.vscode/
+*.swp
+*.swo
+
+# Runtime data
+publish/
+
+# Misc
+.DS_Store
+Thumbs.db
+
+# Configuraciones específicas de desarrollo
+Backend/Properties/launchSettings.json
+Backend/appsettings.Development.json

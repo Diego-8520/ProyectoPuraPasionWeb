@@ -1,0 +1,689 @@
+/* ============================================= */
+/* FOOTER.CSS - PIE DE PÁGINA                  */
+/* ============================================= */
+
+/*
+Este archivo contiene todos los estilos relacionados con el footer (pie de página) del sitio web,
+incluyendo:
+- Estructura principal del footer
+- Columnas de información
+- Logo y descripción
+- Enlaces de navegación
+- Información de contacto
+- Redes sociales
+- Métodos de pago
+- Newsletter
+- Efectos y animaciones
+- Estilos responsive
+*/
+
+/* ============================================= */
+/* FOOTER PRINCIPAL                             */
+/* ============================================= */
+
+/* Contenedor principal del footer */
+.main-footer {
+    background-color: var(--dark-color); /* Fondo oscuro */
+    color: var(--light-color); /* Texto claro */
+    padding: var(--space-4xl) 0 0; /* Relleno superior grande, sin relleno inferior */
+    margin-top: var(--space-2x1); /* Margen superior */
+    position: relative; /* Para el pseudo-elemento */
+    opacity: 0; /* Inicialmente transparente para animación */
+    transform: translateY(30px); /* Posición inicial para animación */
+    animation: fadeInUp 0.6s ease forwards; /* Animación de entrada */
+}
+
+/* Línea decorativa superior con gradiente */
+.main-footer::before {
+    content: ''; /* Contenido vacío */
+    position: absolute; /* Posición absoluta */
+    top: 0; /* Desde arriba */
+    left: 0; /* Desde la izquierda */
+    right: 0; /* Hasta la derecha */
+    height: 4px; /* Altura */
+    background: linear-gradient(90deg, var(--primary-color) 0%, var(--gold-dark) 100%); /* Gradiente amarillo */
+}
+
+/* Animación de entrada del footer */
+@keyframes fadeInUp {
+    to {
+        opacity: 1; /* Opacidad completa */
+        transform: translateY(0); /* Posición final */
+    }
+}
+
+/* ============================================= */
+/* CONTENIDO PRINCIPAL DEL FOOTER              */
+/* ============================================= */
+
+/* Grid para las columnas del footer */
+.footer-content {
+    display: grid; /* Usa CSS Grid */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Columnas responsivas */
+    gap: var(--space-2xl); /* Espacio entre columnas */
+    margin-bottom: var(--space-4xl); /* Margen inferior */
+    padding: 0 var(--container-padding); /* Relleno horizontal */
+}
+
+/* Estilo para cada columna */
+.footer-column {
+    display: flex; /* Layout flexible */
+    flex-direction: column; /* Organiza en columna */
+    align-items: flex-start; /* Alineación izquierda */
+}
+
+/* Primera columna (logo) centrada */
+.footer-column:first-child {
+    align-items: center; /* Centrado */
+    text-align: center; /* Texto centrado */
+}
+
+/* ============================================= */
+/* LOGO Y MARCA EN FOOTER                       */
+/* ============================================= */
+
+/* Contenedor del logo en footer */
+.footer-column .logo-container {
+    display: flex; /* Layout flexible */
+    flex-direction: column; /* Organiza en columna */
+    align-items: center; /* Centrado */
+    gap: var(--space-base); /* Espacio entre elementos */
+    max-width: 220px; /* Ancho máximo */
+    margin: 0 auto var(--space-lg) auto; /* Margen centrado */
+    text-align: center; /* Texto centrado */
+    padding: var(--space-base); /* Relleno */
+}
+
+/* Imagen del logo */
+.footer-logo {
+    width: 80px; /* Ancho fijo */
+    height: auto; /* Altura automática */
+    max-width: 100%; /* Máximo ancho */
+    object-fit: contain; /* Mantiene proporciones */
+    transition: var(--transition); /* Transición para efectos */
+    filter: brightness(1); /* Brillo normal */
+}
+
+/* Efecto hover para el logo */
+.footer-logo:hover {
+    transform: scale(1.05); /* Ligero aumento */
+    filter: brightness(1.1); /* Aumenta brillo */
+}
+
+/* Texto del logo */
+.footer-column .logo-text {
+    font-family: var(--title-font); /* Fuente especial */
+    font-size: var(--font-xl); /* Tamaño grande */
+    font-weight: 700; /* Negrita */
+    color: var(--primary-color); /* Color amarillo */
+    letter-spacing: 1px; /* Espaciado entre letras */
+    text-transform: uppercase; /* Mayúsculas */
+    white-space: normal; /* Saltos de línea permitidos */
+    text-align: center; /* Texto centrado */
+    line-height: 1.2; /* Altura de línea */
+    transition: var(--transition); /* Transición para efectos */
+    margin: 0; /* Sin margen */
+}
+
+/* Efecto hover para el texto del logo */
+.footer-column .logo-text:hover {
+    color: var(--gold-light); /* Color amarillo claro */
+}
+
+/* Descripción de la marca */
+.footer-description {
+    font-size: var(--font-sm); /* Tamaño pequeño */
+    color: rgba(255, 255, 255, 0.8); /* Color claro con transparencia */
+    text-align: center; /* Texto centrado */
+    line-height: 1.6; /* Altura de línea */
+    margin-top: var(--space-base); /* Margen superior */
+    max-width: 280px; /* Ancho máximo */
+}
+
+/* ============================================= */
+/* TÍTULOS Y ENLACES DEL FOOTER                */
+/* ============================================= */
+
+/* Títulos de las columnas */
+.footer-title {
+    font-family: var(--title-font); /* Fuente especial */
+    font-size: var(--font-lg); /* Tamaño grande */
+    font-weight: 600; /* Semi-negrita */
+    color: var(--primary-color); /* Color amarillo */
+    margin-bottom: var(--space-lg); /* Margen inferior */
+    text-transform: uppercase; /* Mayúsculas */
+    letter-spacing: 1px; /* Espaciado entre letras */
+    position: relative; /* Para el pseudo-elemento */
+    padding-bottom: var(--space-sm); /* Relleno inferior */
+}
+
+/* Línea decorativa bajo los títulos */
+.footer-title::after {
+    content: ''; /* Contenido vacío */
+    position: absolute; /* Posición absoluta */
+    bottom: 0; /* Desde abajo */
+    left: 0; /* Desde la izquierda */
+    width: 30px; /* Ancho */
+    height: 2px; /* Altura */
+    background-color: var(--primary-color); /* Color amarillo */
+    border-radius: var(--radius-full); /* Bordes redondeados */
+}
+
+/* Lista de enlaces */
+.footer-links {
+    list-style: none; /* Sin estilos de lista */
+    margin: 0; /* Sin margen */
+    padding: 0; /* Sin relleno */
+}
+
+/* Items de la lista */
+.footer-links li {
+    margin-bottom: var(--space-sm); /* Margen inferior */
+    transition: var(--transition); /* Transición para efectos */
+}
+
+/* Efecto hover para items */
+.footer-links li:hover {
+    transform: translateX(5px); /* Desplazamiento derecho */
+}
+
+/* Estilo de los enlaces */
+.footer-links a {
+    color: rgba(255, 255, 255, 0.7); /* Color claro con transparencia */
+    text-decoration: none; /* Sin subrayado */
+    font-size: var(--font-base); /* Tamaño normal */
+    font-weight: 400; /* Peso normal */
+    transition: var(--transition); /* Transición para efectos */
+    display: flex; /* Layout flexible */
+    align-items: center; /* Centrado vertical */
+    gap: var(--space-sm); /* Espacio entre icono y texto */
+    padding: var(--space-xs) 0; /* Relleno vertical */
+    border-radius: var(--radius-sm); /* Bordes redondeados */
+    position: relative; /* Para el pseudo-elemento */
+}
+
+/* Subrayado animado */
+.footer-links a::before {
+    content: ''; /* Contenido vacío */
+    width: 0; /* Inicialmente sin ancho */
+    height: 2px; /* Altura */
+    background-color: var(--primary-color); /* Color amarillo */
+    position: absolute; /* Posición absoluta */
+    bottom: 0; /* Desde abajo */
+    left: 0; /* Desde la izquierda */
+    transition: var(--transition); /* Transición para efectos */
+}
+
+/* Efecto hover para enlaces */
+.footer-links a:hover {
+    color: var(--primary-color); /* Color amarillo */
+    padding-left: var(--space-sm); /* Relleno izquierdo */
+}
+
+/* Animación del subrayado al hacer hover */
+.footer-links a:hover::before {
+    width: 20px; /* Ancho completo */
+}
+
+/* Estilo para enlaces con foco (accesibilidad) */
+.footer-links a:focus {
+    outline: 2px solid var(--primary-color); /* Contorno visible */
+    outline-offset: 2px; /* Espacio entre contorno y elemento */
+    border-radius: var(--radius-sm); /* Bordes redondeados */
+}
+
+/* Iconos en enlaces */
+.footer-links a i {
+    font-size: var(--font-sm); /* Tamaño pequeño */
+    opacity: 0.7; /* Ligera transparencia */
+    transition: var(--transition); /* Transición para efectos */
+}
+
+/* Efecto hover para iconos */
+.footer-links a:hover i {
+    opacity: 1; /* Sin transparencia */
+    color: var(--primary-color); /* Color amarillo */
+}
+
+/* ============================================= */
+/* INFORMACIÓN DE CONTACTO EN FOOTER           */
+/* ============================================= */
+
+/* Contenedor de información de contacto */
+.footer-contact-info {
+    margin-top: var(--space-lg); /* Margen superior */
+}
+
+/* Items de contacto */
+.footer-contact-item {
+    display: flex; /* Layout flexible */
+    align-items: center; /* Centrado vertical */
+    gap: var(--space-base); /* Espacio entre icono y texto */
+    margin-bottom: var(--space-base); /* Margen inferior */
+    color: rgba(255, 255, 255, 0.8); /* Color claro con transparencia */
+    font-size: var(--font-sm); /* Tamaño pequeño */
+}
+
+/* Iconos de contacto */
+.footer-contact-item i {
+    width: 20px; /* Ancho fijo */
+    height: 20px; /* Altura fija */
+    background-color: var(--primary-color); /* Fondo amarillo */
+    color: var(--dark-color); /* Color oscuro */
+    border-radius: var(--radius-full); /* Forma circular */
+    display: flex; /* Centra el icono */
+    align-items: center; /* Centrado vertical */
+    justify-content: center; /* Centrado horizontal */
+    font-size: var(--font-xs); /* Tamaño muy pequeño */
+    flex-shrink: 0; /* Evita que se encoja */
+}
+
+/* ============================================= */
+/* REDES SOCIALES                              */
+/* ============================================= */
+
+/* Contenedor de enlaces sociales */
+.social-links {
+    display: flex; /* Layout flexible */
+    gap: var(--space-base); /* Espacio entre iconos */
+    padding: var(--space-lg) 0; /* Relleno vertical */
+    justify-content: center; /* Centrado horizontal */
+    flex-wrap: wrap; /* Permite múltiples líneas */
+}
+
+/* Estilo de los iconos sociales */
+.social-link {
+    width: 50px; /* Ancho fijo */
+    height: 50px; /* Altura fija */
+    border-radius: var(--radius-full); /* Forma circular */
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo claro con transparencia */
+    color: rgba(255, 255, 255, 0.7); /* Color claro con transparencia */
+    display: flex; /* Centra el icono */
+    align-items: center; /* Centrado vertical */
+    justify-content: center; /* Centrado horizontal */
+    text-decoration: none !important; /* Sin subrayado */
+    transition: var(--transition); /* Transición para efectos */
+    border: 2px solid transparent; /* Borde transparente */
+    backdrop-filter: blur(10px); /* Efecto de desenfoque */
+    position: relative; /* Para el pseudo-elemento */
+    overflow: hidden; /* Oculta desbordamientos */
+}
+
+/* Efecto de brillo al pasar el ratón */
+.social-link::before {
+    content: ''; /* Contenido vacío */
+    position: absolute; /* Posición absoluta */
+    top: 0; /* Desde arriba */
+    left: -100%; /* Fuera de la vista */
+    width: 100%; /* Ancho completo */
+    height: 100%; /* Altura completa */
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent); /* Degradado */
+    transition: var(--transition-slow); /* Transición lenta */
+}
+
+/* Animación del efecto de brillo */
+.social-link:hover::before {
+    left: 100%; /* Mueve el brillo a la derecha */
+}
+
+/* Efecto hover para iconos sociales */
+.social-link:hover {
+    background-color: var(--primary-color); /* Fondo amarillo */
+    color: var(--dark-color); /* Color oscuro */
+    transform: translateY(-3px) scale(1.05); /* Efecto de levitación */
+    box-shadow: var(--box-shadow-lg); /* Sombra pronunciada */
+    border-color: var(--primary-color); /* Borde amarillo */
+}
+
+/* Estilo para iconos con foco (accesibilidad) */
+.social-link:focus {
+    outline: 2px solid var(--primary-color); /* Contorno visible */
+    outline-offset: 4px; /* Espacio entre contorno y elemento */
+}
+
+/* Iconos dentro de los enlaces */
+.social-link i {
+    font-size: var(--font-lg); /* Tamaño grande */
+    z-index: 1; /* Sobre el efecto de brillo */
+    position: relative; /* Para z-index */
+}
+
+/* Colores específicos para cada red social */
+
+/* Facebook - Azul */
+.social-link[href*="facebook"]:hover {
+    background-color: #1877f2;
+    border-color: #1877f2;
+    color: white;
+}
+
+/* Instagram - Degradado */
+.social-link[href*="instagram"]:hover {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    border-color: #e6683c;
+    color: white;
+}
+
+/* Twitter - Azul claro */
+.social-link[href*="twitter"]:hover {
+    background-color: #1da1f2;
+    border-color: #1da1f2;
+    color: white;
+}
+
+/* WhatsApp - Verde */
+.social-link[href*="whatsapp"]:hover {
+    background-color: #25d366;
+    border-color: #25d366;
+    color: white;
+}
+
+/* ============================================= */
+/* FOOTER INFERIOR                              */
+/* ============================================= */
+
+/* Sección inferior del footer */
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Borde superior sutil */
+    padding: var(--space-xl) var(--container-padding); /* Relleno */
+    display: flex; /* Layout flexible */
+    justify-content: space-between; /* Espacio entre elementos */
+    align-items: center; /* Centrado vertical */
+    flex-wrap: wrap; /* Permite múltiples líneas */
+    gap: var(--space-lg); /* Espacio entre elementos */
+    background-color: rgba(0, 0, 0, 0.3); /* Fondo oscuro con transparencia */
+}
+
+/* Texto del footer inferior */
+.footer-bottom p {
+    color: rgba(255, 255, 255, 0.6); /* Color claro con transparencia */
+    font-size: var(--font-sm); /* Tamaño pequeño */
+    margin: 0; /* Sin margen */
+    line-height: 1.5; /* Altura de línea */
+}
+
+/* ============================================= */
+/* MÉTODOS DE PAGO                             */
+/* ============================================= */
+
+/* Contenedor de iconos de métodos de pago */
+.payment-methods {
+    display: flex; /* Layout flexible */
+    gap: var(--space-base); /* Espacio entre iconos */
+    align-items: center; /* Centrado vertical */
+    flex-wrap: wrap; /* Permite múltiples líneas */
+}
+
+/* Iconos de métodos de pago */
+.payment-methods i {
+    font-size: var(--font-2xl); /* Tamaño grande */
+    color: rgba(255, 255, 255, 0.6); /* Color claro con transparencia */
+    transition: var(--transition); /* Transición para efectos */
+    padding: var(--space-xs); /* Relleno */
+    border-radius: var(--radius-sm); /* Bordes redondeados */
+    background-color: rgba(255, 255, 255, 0.05); /* Fondo claro con transparencia */
+    width: 45px; /* Ancho fijo */
+    height: 35px; /* Altura fija */
+    display: flex; /* Centra el icono */
+    align-items: center; /* Centrado vertical */
+    justify-content: center; /* Centrado horizontal */
+}
+
+/* Efecto hover para iconos de pago */
+.payment-methods i:hover {
+    color: var(--primary-color); /* Color amarillo */
+    background-color: rgba(250, 205, 0, 0.1); /* Fondo amarillo con transparencia */
+    transform: translateY(-2px); /* Efecto de levitación */
+    box-shadow: var(--box-shadow-sm); /* Sombra sutil */
+}
+
+/* Colores específicos para cada método de pago */
+
+/* Visa - Azul oscuro */
+.payment-methods .fa-cc-visa:hover {
+    color: #1a1f71;
+    background-color: rgba(26, 31, 113, 0.1);
+}
+
+/* Mastercard - Rojo */
+.payment-methods .fa-cc-mastercard:hover {
+    color: #eb001b;
+    background-color: rgba(235, 0, 27, 0.1);
+}
+
+/* American Express - Azul */
+.payment-methods .fa-cc-amex:hover {
+    color: #006fcf;
+    background-color: rgba(0, 111, 207, 0.1);
+}
+
+/* PayPal - Azul oscuro */
+.payment-methods .fa-cc-paypal:hover {
+    color: #003087;
+    background-color: rgba(0, 48, 135, 0.1);
+}
+
+/* ============================================= */
+/* NEWSLETTER (OPCIONAL)                        */
+/* ============================================= */
+
+/* Contenedor del newsletter */
+.footer-newsletter {
+    background-color: rgba(255, 255, 255, 0.05); /* Fondo claro con transparencia */
+    padding: var(--space-2xl); /* Relleno */
+    border-radius: var(--radius-lg); /* Bordes redondeados */
+    margin-bottom: var(--space-2xl); /* Margen inferior */
+    text-align: center; /* Texto centrado */
+    backdrop-filter: blur(5px); /* Efecto de desenfoque */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Borde sutil */
+}
+
+/* Título del newsletter */
+.footer-newsletter h3 {
+    color: var(--primary-color); /* Color amarillo */
+    font-family: var(--title-font); /* Fuente especial */
+    font-size: var(--font-xl); /* Tamaño extra grande */
+    margin-bottom: var(--space-base); /* Margen inferior */
+    text-transform: uppercase; /* Mayúsculas */
+    letter-spacing: 1px; /* Espaciado entre letras */
+}
+
+/* Texto descriptivo */
+.footer-newsletter p {
+    color: rgba(255, 255, 255, 0.8); /* Color claro con transparencia */
+    margin-bottom: var(--space-lg); /* Margen inferior */
+    font-size: var(--font-base); /* Tamaño normal */
+}
+
+/* Formulario del newsletter */
+.newsletter-form {
+    display: flex; /* Layout flexible */
+    gap: var(--space-sm); /* Espacio entre elementos */
+    max-width: 400px; /* Ancho máximo */
+    margin: 0 auto; /* Centrado horizontal */
+}
+
+/* Campo de entrada */
+.newsletter-form input {
+    flex: 1; /* Ocupa espacio disponible */
+    padding: var(--space-base); /* Relleno */
+    border: none; /* Sin borde */
+    border-radius: var(--radius); /* Bordes redondeados */
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo claro con transparencia */
+    color: white; /* Texto blanco */
+}
+
+/* Placeholder del input */
+.newsletter-form input::placeholder {
+    color: rgba(255, 255, 255, 0.6); /* Color claro con transparencia */
+}
+
+/* Estilo para input con foco */
+.newsletter-form input:focus {
+    outline: none; /* Sin contorno */
+    background-color: rgba(255, 255, 255, 0.15); /* Fondo más claro */
+    box-shadow: 0 0 0 2px var(--primary-color); /* Sombra amarilla */
+}
+
+/* Botón de suscripción */
+.newsletter-form button {
+    padding: var(--space-base) var(--space-lg); /* Relleno */
+    background-color: var(--primary-color); /* Fondo amarillo */
+    color: var(--dark-color); /* Texto oscuro */
+    border: none; /* Sin borde */
+    border-radius: var(--radius); /* Bordes redondeados */
+    font-weight: 600; /* Semi-negrita */
+    cursor: pointer; /* Cursor de pointer */
+    transition: var(--transition); /* Transición para efectos */
+    text-transform: uppercase; /* Mayúsculas */
+    letter-spacing: 0.5px; /* Espaciado entre letras */
+}
+
+/* Efecto hover para el botón */
+.newsletter-form button:hover {
+    background-color: var(--gold-dark); /* Fondo amarillo oscuro */
+    transform: translateY(-2px); /* Efecto de levitación */
+    box-shadow: var(--box-shadow); /* Sombra sutil */
+}
+
+/* ============================================= */
+/* EFECTOS Y ANIMACIONES                        */
+/* ============================================= */
+
+/* Efecto parallax para footer con imagen de fondo */
+.footer-parallax {
+    background-attachment: fixed; /* Fondo fijo */
+    background-size: cover; /* Cubre todo el espacio */
+    background-position: center; /* Centrado */
+    position: relative; /* Para el pseudo-elemento */
+}
+
+/* Overlay para efecto parallax */
+.footer-parallax::before {
+    content: ''; /* Contenido vacío */
+    position: absolute; /* Posición absoluta */
+    top: 0; /* Desde arriba */
+    left: 0; /* Desde la izquierda */
+    right: 0; /* Hasta la derecha */
+    bottom: 0; /* Hasta abajo */
+    background-color: rgba(26, 26, 26, 0.9); /* Fondo oscuro con transparencia */
+    z-index: 1; /* Debajo del contenido */
+}
+
+/* Asegura que el contenido esté sobre el overlay */
+.footer-parallax .footer-content,
+.footer-parallax .footer-bottom {
+    position: relative; /* Para z-index */
+    z-index: 2; /* Sobre el overlay */
+}
+
+/* ============================================= */
+/* RESPONSIVE DESIGN PARA FOOTER               */
+/* ============================================= */
+
+/* Tablet (hasta 768px) */
+@media (max-width: 768px) {
+    .main-footer {
+        padding: var(--space-2xl) 0 0; /* Relleno reducido */
+    }
+    
+    /* Cambia a una sola columna */
+    .footer-content {
+        grid-template-columns: 1fr; /* Una columna */
+        gap: var(--space-xl); /* Espacio vertical */
+        text-align: center; /* Texto centrado */
+        margin-bottom: var(--space-2xl); /* Margen inferior reducido */
+    }
+    
+    /* Centra todas las columnas */
+    .footer-column {
+        align-items: center;
+    }
+    
+    /* Ajusta el contenedor del logo */
+    .footer-column .logo-container {
+        max-width: 180px; /* Ancho reducido */
+    }
+    
+    /* Reduce tamaño del logo */
+    .footer-logo {
+        width: 60px;
+    }
+    
+    /* Reduce tamaño del texto del logo */
+    .footer-column .logo-text {
+        font-size: var(--font-lg);
+    }
+    
+    /* Centra la línea decorativa bajo títulos */
+    .footer-title::after {
+        left: 50%; /* Centrado */
+        transform: translateX(-50%); /* Ajuste fino */
+    }
+    
+    /* Cambia a columna el footer inferior */
+    .footer-bottom {
+        flex-direction: column; /* Organiza en columna */
+        gap: var(--space-base); /* Espacio reducido */
+        text-align: center; /* Texto centrado */
+        padding: var(--space-lg) var(--container-padding); /* Relleno reducido */
+    }
+    
+    /* Centra métodos de pago */
+    .payment-methods {
+        justify-content: center;
+    }
+    
+    /* Centra redes sociales */
+    .social-links {
+        justify-content: center;
+        gap: var(--space-sm); /* Espacio reducido */
+    }
+    
+    /* Cambia a columna el formulario */
+    .newsletter-form {
+        flex-direction: column;
+    }
+}
+
+/* Móvil (hasta 480px) */
+@media (max-width: 480px) {
+    /* Ajustes adicionales para móviles pequeños */
+    .footer-content {
+        gap: var(--space-lg); /* Espacio reducido */
+        padding: 0 var(--space-base); /* Relleno horizontal reducido */
+    }
+    
+    /* Reduce más el contenedor del logo */
+    .footer-column .logo-container {
+        max-width: 150px;
+    }
+    
+    /* Reduce más el logo */
+    .footer-logo {
+        width: 50px;
+    }
+    
+    /* Reduce más el texto del logo */
+    .footer-column .logo-text {
+        font-size: var(--font-base);
+    }
+    
+    /* Reduce tamaño de iconos sociales */
+    .social-link {
+        width: 45px;
+        height: 45px;
+    }
+    
+    /* Reduce tamaño de iconos dentro de enlaces sociales */
+    .social-link i {
+        font-size: var(--font-base);
+    }
+    
+    /* Reduce tamaño de iconos de métodos de pago */
+    .payment-methods i {
+        font-size: var(--font-xl);
+        width: 40px;
+        height: 30px;
+    }
+}

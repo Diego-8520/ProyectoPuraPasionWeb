@@ -1,0 +1,268 @@
+/* ============================================= */
+/* RESPONSIVE.CSS - MEDIA QUERIES GLOBALES      */
+/* ============================================= */
+
+/* 
+Este archivo contiene todas las consultas de medios (media queries) para hacer 
+el sitio web adaptable a diferentes tamaños de pantalla.
+
+Estrategia de breakpoints basada en:
+- Mobile First (desde 0px) - Diseño pensado primero para móviles
+- Tablet: 768px - Pantallas medianas como tablets
+- Desktop: 1024px - Pantallas de portátiles/escritorio
+- Large Desktop: 1200px - Pantallas grandes de escritorio
+*/
+
+/* ============================================= */
+/* MEDIA QUERIES PARA HEADER Y NAVEGACIÓN       */
+/* ============================================= */
+
+/* Ajustes para tablets grandes (hasta 1024px) */
+@media (max-width: 1024px) {
+    /* Reduce el tamaño del texto del logo */
+    .logo-text {
+        font-size: var(--font-xl);
+    }
+    
+    /* Reduce el espacio entre elementos de navegación */
+    .main-nav ul {
+        gap: var(--space-lg);
+    }
+}
+
+/* Ajustes para tablets y móviles grandes (hasta 768px) */
+@media (max-width: 768px) {
+    /* Establece altura fija para el header */
+    .main-header {
+        height: var(--header-height);
+    }
+    
+    /* Convierte la navegación en menú móvil */
+    .main-nav {
+        position: fixed; /* Posición fija */
+        top: var(--header-height); /* Debajo del header */
+        left: -100%; /* Oculta el menú fuera de pantalla */
+        width: 85%; /* Ancho del menú */
+        max-width: 300px; /* Ancho máximo */
+        height: calc(100vh - var(--header-height)); /* Altura completa menos header */
+        background-color: var(--light-color); /* Fondo blanco */
+        flex-direction: column; /* Organiza en columna */
+        padding: var(--space-2xl); /* Espaciado interno */
+        transition: var(--transition); /* Transición suave */
+        z-index: var(--z-modal); /* Asegura que esté sobre otros elementos */
+    }
+    
+    /* Muestra el menú cuando tiene clase 'active' */
+    .main-nav.active {
+        left: 0;
+    }
+    
+    /* Organiza los enlaces en columna */
+    .main-nav ul {
+        flex-direction: column;
+        gap: var(--space-base);
+    }
+    
+    /* Muestra el botón de menú móvil */
+    .mobile-menu-btn {
+        display: block;
+    }
+    
+    /* Reduce el tamaño del logo */
+    .logo {
+        height: 40px;
+    }
+    
+    .logo-text {
+        font-size: var(--font-lg);
+    }
+    
+    /* Cambia la dirección del contenedor de búsqueda */
+    .search-container {
+        flex-direction: column;
+    }
+    
+    /* Ajusta el ancho de los elementos de búsqueda */
+    .search-box,
+    .filter-box {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+/* Ajustes para móviles pequeños (hasta 480px) */
+@media (max-width: 480px) {
+    /* Reduce el espacio alrededor del logo */
+    .logo-container {
+        gap: var(--space-sm);
+    }
+    
+    /* Reduce más el tamaño del texto del logo */
+    .logo-text {
+        font-size: var(--font-base);
+    }
+}
+
+/* ============================================= */
+/* MEDIA QUERIES PARA SECCIONES PRINCIPALES     */
+/* ============================================= */
+
+/* Ajustes para tablets grandes (hasta 1024px) */
+@media (max-width: 1024px) {
+    /* Reduce el padding de las secciones */
+    .section {
+        padding: var(--space-3xl) 0;
+    }
+    
+    /* Reduce el espacio entre elementos de contacto */
+    .contact-container {
+        gap: var(--space-xl);
+    }
+}
+
+/* Ajustes para tablets y móviles grandes (hasta 768px) */
+@media (max-width: 768px) {
+    /* Ajusta el grid de productos */
+    .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Columnas flexibles */
+        gap: var(--space-lg); /* Espacio entre productos */
+    }
+    
+    /* Cambia el layout de contacto a una columna */
+    .contact-container {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Centra la información de contacto */
+    .contact-info {
+        text-align: left;
+        max-width: 100%;
+    }
+    
+    .contact-methods {
+        align-items: center;
+    }
+    
+    /* Cambia el detalle de producto a una columna */
+    .product-detail-container {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Cambia las estadísticas a columna */
+    .about-stats {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* Ajustes para móviles pequeños (hasta 480px) */
+@media (max-width: 480px) {
+    /* Muestra los productos en una sola columna */
+    .products-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Cambia las pestañas de categoría a columna */
+    .category-tabs {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    /* Reduce más el padding de las secciones */
+    .section {
+        padding: var(--space-xl) 0;
+    }
+}
+
+/* ============================================= */
+/* MEDIA QUERIES PARA FOOTER                    */
+/* ============================================= */
+
+/* Ajustes para tablets y móviles grandes (hasta 768px) */
+@media (max-width: 768px) {
+    /* Cambia el footer a una columna */
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    /* Centra las columnas del footer */
+    .footer-column {
+        align-items: center;
+    }
+    
+    /* Cambia la dirección del footer inferior */
+    .footer-bottom {
+        flex-direction: column;
+        gap: var(--space-base);
+    }
+    
+    /* Centra los métodos de pago */
+    .payment-methods {
+        justify-content: center;
+    }
+}
+
+/* ============================================= */
+/* MEDIA QUERIES ESPECÍFICAS PARA COMPONENTES  */
+/* ============================================= */
+
+/* Ajustes para tablets y móviles grandes (hasta 768px) */
+@media (max-width: 768px) {
+    /* Ajusta el ancho máximo de las tarjetas de producto */
+    .product-card {
+        max-width: 100%;
+    }
+    
+    /* Reduce el padding de los botones */
+    .btn {
+        padding: var(--space-sm) var(--space-lg);
+    }
+    
+    /* Reduce el tamaño de los títulos de sección */
+    .section-title {
+        font-size: var(--font-2xl);
+    }
+}
+
+/* ============================================= */
+/* MEDIA QUERIES PARA ORIENTACIÓN              */
+/* ============================================= */
+
+/* Ajustes para móviles en orientación horizontal (altura máxima 600px) */
+@media (max-height: 600px) and (orientation: landscape) {
+    /* Reduce el ancho del menú móvil */
+    .main-nav {
+        width: 60%;
+    }
+    
+    /* Ajusta el grid de productos para pantallas anchas */
+    .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}
+
+/* ============================================= */
+/* MEDIA QUERIES PARA IMPRESIÓN                */
+/* ============================================= */
+
+@media print {
+    /* Oculta elementos no necesarios en impresión */
+    .main-header,
+    .main-footer,
+    .mobile-menu-btn {
+        display: none !important;
+    }
+    
+    /* Ajustes tipográficos para impresión */
+    body {
+        font-size: 12pt;
+        line-height: 1.4;
+    }
+    
+    /* Muestra las URLs después de los enlaces */
+    a::after {
+        content: " (" attr(href) ")";
+        font-size: var(--font-sm);
+    }
+}

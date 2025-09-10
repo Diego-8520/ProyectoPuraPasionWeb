@@ -1,0 +1,509 @@
+/* ============================================= */
+/* BASE.CSS - RESET Y ESTILOS FUNDAMENTALES    */
+/* ============================================= */
+/*
+  Este archivo contiene:
+  - Reset CSS para normalizar estilos entre navegadores
+  - Estilos base para elementos HTML
+  - Configuraciones tipográficas fundamentales
+  - Estilos para estados y mensajes
+*/
+
+/* ============================================= */
+/* RESET CSS MODERNO                            */
+/* ============================================= */
+/*
+  Normalización de estilos para mayor consistencia entre navegadores
+  Basado en el enfoque de "reset moderno" (no agresivo)
+*/
+
+/* Reset box model para todos los elementos */
+*,
+*::before,
+*::after {
+    box-sizing: border-box; /* El padding y border se incluyen en el width/height */
+    margin: 0;             /* Elimina márgenes por defecto */
+    padding: 0;            /* Elimina padding por defecto */
+}
+
+/* Eliminar estilos por defecto de listas */
+ul,
+ol {
+    list-style: none; /* Quita viñetas/numeración */
+}
+
+/* Resetear estilos de enlaces */
+a {
+    text-decoration: none; /* Elimina subrayado */
+    color: inherit;        /* Hereda el color del elemento padre */
+}
+
+/* Resetear estilos de botones */
+button {
+    background: none;  /* Elimina fondo por defecto */
+    border: none;      /* Elimina borde por defecto */
+    font: inherit;     /* Hereda propiedades tipográficas */
+    cursor: pointer;   /* Cambia cursor a pointer */
+}
+
+/* Resetear estilos de inputs y formularios */
+input,
+textarea,
+select {
+    font: inherit;      /* Hereda propiedades tipográficas */
+    border: none;       /* Elimina borde por defecto */
+    outline: none;      /* Elimina outline por defecto al enfocar */
+}
+
+/* Mejorar renderizado de elementos multimedia */
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;     /* Elimina espacio inferior en inline elements */
+    max-width: 100%;    /* Hace que sean responsivos */
+    height: auto;       /* Mantiene proporciones al escalar */
+}
+
+/* Eliminar estilos por defecto de fieldset */
+fieldset {
+    border: none;  /* Elimina borde */
+    padding: 0;    /* Elimina padding */
+    margin: 0;     /* Elimina margin */
+}
+
+/* Resetear estilos de tablas */
+table {
+    border-collapse: collapse; /* Une bordes de celdas */
+    border-spacing: 0;         /* Elimina espacio entre celdas */
+}
+
+/* ============================================= */
+/* CONFIGURACIÓN BASE DEL DOCUMENTO            */
+/* ============================================= */
+
+/* Configuración base del elemento raíz */
+html {
+    font-size: 16px; /* Base para unidades rem (1rem = 16px) */
+    -webkit-text-size-adjust: 100%; /* Evita ajuste automático de texto en iOS */
+    -ms-text-size-adjust: 100%;     /* Versión para IE */
+}
+
+/* Estilos base del cuerpo del documento */
+body {
+    font-family: var(--text-font);     /* Fuente principal definida en variables */
+    font-size: var(--font-base);       /* Tamaño base de fuente (16px) */
+    font-weight: 400;                  /* Grosor normal */
+    line-height: 1.6;                  /* Espaciado entre líneas */
+    color: var(--dark-color);          /* Color de texto principal */
+    background-color: var(--light-color); /* Color de fondo */
+    overflow-x: hidden;                /* Evita scroll horizontal */
+    -webkit-font-smoothing: antialiased; /* Mejor renderizado de fuentes en WebKit */
+    -moz-osx-font-smoothing: grayscale;  /* Mejor renderizado en Firefox/Mac */
+    text-rendering: optimizeLegibility;  /* Optimiza legibilidad del texto */
+}
+
+/* ============================================= */
+/* TIPOGRAFÍA BASE                              */
+/* ============================================= */
+
+/* Jerarquía de títulos */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--title-font); /* Fuente para títulos */
+    font-weight: 700;              /* Grosor bold */
+    line-height: 1.2;              /* Espaciado más ajustado para títulos */
+    color: var(--dark-color);      /* Color de texto */
+    margin-bottom: var(--space-base); /* Espaciado inferior */
+}
+
+/* Estilos específicos para cada nivel de título */
+h1 {
+    font-size: var(--font-4xl);     /* 36px */
+    letter-spacing: -0.02em;       /* Kerning ajustado */
+}
+
+h2 {
+    font-size: var(--font-3xl);     /* 30px */
+    letter-spacing: -0.01em;       /* Kerning ajustado */
+}
+
+h3 {
+    font-size: var(--font-2xl);     /* 24px */
+}
+
+h4 {
+    font-size: var(--font-xl);      /* 20px */
+}
+
+h5 {
+    font-size: var(--font-lg);      /* 18px */
+}
+
+h6 {
+    font-size: var(--font-base);    /* 16px */
+    font-weight: 600;              /* Semi-bold */
+}
+
+/* Párrafos y texto */
+p {
+    margin-bottom: var(--space-base); /* Espaciado inferior */
+    color: var(--gray-dark);        /* Color de texto secundario */
+    line-height: 1.7;               /* Espaciado entre líneas más amplio */
+}
+
+/* Enlaces */
+a {
+    color: var(--secondary-color);  /* Color de enlaces */
+    text-decoration: none;          /* Elimina subrayado */
+    transition: var(--transition);  /* Transición suave para efectos hover */
+}
+
+a:hover {
+    color: var(--primary-color);    /* Color al pasar el mouse */
+}
+
+a:focus {
+    outline: 2px solid var(--primary-color); /* Estilo para accesibilidad */
+    outline-offset: 2px;           /* Espacio entre outline y elemento */
+}
+
+/* Texto destacado */
+strong,
+b {
+    font-weight: 600;              /* Semi-bold */
+    color: var(--dark-color);      /* Color oscuro para mayor contraste */
+}
+
+em,
+i {
+    font-style: italic;            /* Estilo itálico */
+}
+
+small {
+    font-size: var(--font-sm);     /* Texto pequeño (14px) */
+    color: var(--gray-dark);       /* Color secundario */
+}
+
+/* Citas */
+blockquote {
+    border-left: 4px solid var(--primary-color); /* Barra lateral decorativa */
+    padding-left: var(--space-lg); /* Espaciado interno */
+    margin: var(--space-xl) 0;     /* Margen vertical */
+    font-style: italic;           /* Estilo itálico */
+    color: var(--gray-dark);       /* Color secundario */
+}
+
+/* Código */
+code {
+    font-family: 'Courier New', monospace; /* Fuente monoespaciada */
+    background-color: var(--gray-light);   /* Fondo gris claro */
+    padding: var(--space-xs) var(--space-sm); /* Espaciado interno */
+    border-radius: var(--radius-sm);       /* Bordes redondeados */
+    font-size: var(--font-sm);             /* Tamaño pequeño */
+}
+
+pre {
+    background-color: var(--gray-light);   /* Fondo gris claro */
+    padding: var(--space-lg);              /* Espaciado interno */
+    border-radius: var(--radius);          /* Bordes redondeados */
+    overflow-x: auto;                      /* Scroll horizontal si es necesario */
+    margin: var(--space-lg) 0;             /* Margen vertical */
+}
+
+pre code {
+    background: none;     /* Elimina fondo duplicado */
+    padding: 0;           /* Elimina padding duplicado */
+}
+
+/* ============================================= */
+/* ELEMENTOS DE FORMULARIO BASE                 */
+/* ============================================= */
+
+input,
+textarea,
+select {
+    width: 100%;                        /* Ancho completo */
+    padding: var(--space-sm) var(--space-base); /* Espaciado interno */
+    border: 1px solid var(--gray-medium); /* Borde sutil */
+    border-radius: var(--radius);        /* Bordes redondeados */
+    background-color: var(--light-color); /* Fondo */
+    font-size: var(--font-base);         /* Tamaño de fuente */
+    transition: var(--transition);       /* Transición suave */
+}
+
+/* Estados de focus para inputs */
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--primary-color);  /* Cambia color de borde */
+    box-shadow: 0 0 0 2px rgba(250, 205, 0, 0.2); /* Sombra suave */
+}
+
+/* Placeholders */
+input::placeholder,
+textarea::placeholder {
+    color: var(--gray-dark); /* Color secundario */
+    opacity: 0.7;           /* Ligera transparencia */
+}
+
+/* Checkbox y radio personalizados */
+input[type="checkbox"],
+input[type="radio"] {
+    width: auto;           /* Ancho automático (no 100%) */
+    margin-right: var(--space-sm); /* Espaciado a la derecha */
+}
+
+/* Select personalizado */
+select {
+    appearance: none; /* Elimina estilos nativos */
+    /* Icono de flecha personalizado */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right var(--space-base) center;
+    background-size: 1em;
+    padding-right: calc(var(--space-xl) + var(--space-base)); /* Espacio para el icono */
+}
+
+/* Labels */
+label {
+    display: block;           /* Hace que ocupe toda la línea */
+    font-weight: 500;         /* Grosor medio */
+    margin-bottom: var(--space-sm); /* Espaciado inferior */
+    color: var(--dark-color); /* Color de texto */
+}
+
+/* ============================================= */
+/* ELEMENTOS MULTIMEDIA                         */
+/* ============================================= */
+
+img {
+    border-radius: var(--radius); /* Bordes redondeados */
+}
+
+iframe {
+    border: none;            /* Elimina borde por defecto */
+    border-radius: var(--radius); /* Bordes redondeados */
+}
+
+video {
+    width: 100%;            /* Ancho completo */
+    height: auto;           /* Altura proporcional */
+    border-radius: var(--radius); /* Bordes redondeados */
+}
+
+/* ============================================= */
+/* ELEMENTOS DE SEPARACIÓN                      */
+/* ============================================= */
+
+hr {
+    border: none;           /* Elimina borde por defecto */
+    height: 1px;            /* Grosor de línea */
+    background-color: var(--gray-medium); /* Color de línea */
+    margin: var(--space-2xl) 0; /* Margen vertical grande */
+}
+
+/* Divisor decorativo */
+.section-divider {
+    width: 60px;                       /* Ancho fijo */
+    height: 3px;                       /* Grosor */
+    background-color: var(--primary-color); /* Color principal */
+    margin: var(--space-lg) auto;      /* Margen vertical, centrado */
+    border-radius: var(--radius-full); /* Bordes completamente redondeados */
+}
+
+/* ============================================= */
+/* ESTADOS Y MENSAJES                           */
+/* ============================================= */
+
+/* Estados de carga */
+.loading {
+    opacity: 0.6;           /* Reduce opacidad */
+    pointer-events: none;   /* Deshabilita interacciones */
+}
+
+.loading::after {
+    content: '';            /* Pseudoelemento para spinner */
+    position: absolute;
+    top: 50%;               /* Centrado vertical */
+    left: 50%;              /* Centrado horizontal */
+    width: 20px;            /* Tamaño */
+    height: 20px;
+    margin: -10px 0 0 -10px; /* Ajuste fino de centrado */
+    border: 2px solid var(--gray-medium); /* Círculo exterior */
+    border-top: 2px solid var(--primary-color); /* Parte superior coloreada */
+    border-radius: 50%;     /* Forma circular */
+    animation: spin 1s linear infinite; /* Animación rotación */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Mensajes de estado */
+.message {
+    padding: var(--space-base) var(--space-lg); /* Espaciado interno */
+    border-radius: var(--radius); /* Bordes redondeados */
+    margin-bottom: var(--space-lg); /* Margen inferior */
+    border-left: 4px solid; /* Borde lateral como acento */
+}
+
+/* Variantes de mensajes */
+.message-success {
+    background-color: rgba(40, 167, 69, 0.1); /* Fondo verde claro */
+    border-color: var(--success-color);       /* Borde verde */
+    color: var(--success-color);              /* Texto verde */
+}
+
+.message-warning {
+    background-color: rgba(255, 193, 7, 0.1); /* Fondo amarillo claro */
+    border-color: var(--warning-color);       /* Borde amarillo */
+    color: #856404;                           /* Texto amarillo oscuro */
+}
+
+.message-error {
+    background-color: rgba(220, 53, 69, 0.1); /* Fondo rojo claro */
+    border-color: var(--error-color);         /* Borde rojo */
+    color: var(--error-color);                /* Texto rojo */
+}
+
+.message-info {
+    background-color: rgba(23, 162, 184, 0.1); /* Fondo azul claro */
+    border-color: var(--info-color);           /* Borde azul */
+    color: var(--info-color);                  /* Texto azul */
+}
+
+/* Estados vacíos */
+.empty-state {
+    text-align: center;              /* Centrado */
+    padding: var(--space-4xl) var(--space-lg); /* Espaciado interno */
+    color: var(--gray-dark);         /* Color secundario */
+}
+
+.empty-state i {
+    font-size: var(--font-4xl);      /* Icono grande */
+    color: var(--gray-medium);       /* Color gris */
+    margin-bottom: var(--space-lg);  /* Margen inferior */
+}
+
+.empty-state h3 {
+    color: var(--gray-dark);         /* Color de texto */
+    margin-bottom: var(--space-base); /* Margen inferior */
+}
+
+.empty-state p {
+    color: var(--gray-dark);         /* Color de texto */
+    opacity: 0.8;                    /* Ligera transparencia */
+}
+
+/* Error states */
+.error-message {
+    display: flex;
+    flex-direction: column;          /* Disposición vertical */
+    align-items: center;             /* Centrado horizontal */
+    justify-content: center;         /* Centrado vertical */
+    padding: var(--space-2xl);       /* Espaciado interno */
+    text-align: center;              /* Texto centrado */
+    color: var(--error-color);       /* Color rojo */
+}
+
+.error-message i {
+    font-size: var(--font-3xl);      /* Icono grande */
+    margin-bottom: var(--space-base); /* Margen inferior */
+    opacity: 0.7;                    /* Ligera transparencia */
+}
+
+.no-products {
+    display: flex;
+    flex-direction: column;          /* Disposición vertical */
+    align-items: center;             /* Centrado horizontal */
+    justify-content: center;         /* Centrado vertical */
+    padding: var(--space-4xl) var(--space-lg); /* Espaciado interno */
+    text-align: center;              /* Texto centrado */
+    color: var(--gray-dark);         /* Color secundario */
+}
+
+.no-products i {
+    font-size: var(--font-4xl);      /* Icono grande */
+    color: var(--gray-medium);       /* Color gris */
+    margin-bottom: var(--space-lg);  /* Margen inferior */
+}
+
+/* ============================================= */
+/* ACCESIBILIDAD                                */
+/* ============================================= */
+
+/* Foco visible para navegación por teclado */
+:focus-visible {
+    outline: 2px solid var(--primary-color); /* Contorno visible */
+    outline-offset: 2px;                    /* Espacio entre outline y elemento */
+}
+
+/* Texto para lectores de pantalla */
+.sr-only {
+    position: absolute; /* Sacar del flujo normal */
+    width: 1px;         /* Tamaño mínimo */
+    height: 1px;
+    padding: 0;
+    margin: -1px;       /* Evitar que sea visible */
+    overflow: hidden;   /* Ocultar contenido */
+    clip: rect(0, 0, 0, 0); /* Técnica de clipping */
+    white-space: nowrap; /* Evitar saltos de línea */
+    border: 0;          /* Sin borde */
+}
+
+/* Reducir movimiento para usuarios sensibles */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important; /* Elimina animaciones */
+        animation-iteration-count: 1 !important; /* Evita repeticiones */
+        transition-duration: 0.01ms !important; /* Elimina transiciones */
+    }
+    
+    html {
+        scroll-behavior: auto; /* Desactiva scroll suave */
+    }
+}
+
+/* ============================================= */
+/* UTILIDADES DE TEXTO                          */
+/* ============================================= */
+
+/* Utilidades de tamaño de texto */
+.text-xs { font-size: var(--font-xs); }  /* 12px */
+.text-sm { font-size: var(--font-sm); }  /* 14px */
+.text-base { font-size: var(--font-base); } /* 16px */
+.text-lg { font-size: var(--font-lg); }  /* 18px */
+.text-xl { font-size: var(--font-xl); }  /* 20px */
+.text-2xl { font-size: var(--font-2xl); } /* 24px */
+.text-3xl { font-size: var(--font-3xl); } /* 30px */
+.text-4xl { font-size: var(--font-4xl); } /* 36px */
+
+/* Utilidades de peso de fuente */
+.font-light { font-weight: 300; }
+.font-normal { font-weight: 400; }
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+
+/* Utilidades de color de texto */
+.text-primary { color: var(--primary-color); }
+.text-secondary { color: var(--secondary-color); }
+.text-dark { color: var(--dark-color); }
+.text-light { color: var(--light-color); }
+.text-gray { color: var(--gray-dark); }
+
+/* Utilidades de transformación de texto */
+.uppercase { text-transform: uppercase; }
+.lowercase { text-transform: lowercase; }
+.capitalize { text-transform: capitalize; }
+
+/* Utilidades de espaciado entre letras */
+.tracking-tight { letter-spacing: -0.025em; }
+.tracking-normal { letter-spacing: 0; }
+.tracking-wide { letter-spacing: 0.025em; }
+.tracking-wider { letter-spacing: 0.05em; }
+.tracking-widest { letter-spacing: 0.1em; }

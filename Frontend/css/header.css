@@ -1,0 +1,619 @@
+/* ============================================= */
+/* HEADER.CSS - NAVEGACIÓN Y HEADER            */
+/* ============================================= */
+
+/*
+Este archivo contiene todos los estilos relacionados con:
+- El header principal y sus variantes
+- La navegación principal
+- El logo y marca
+- Los iconos de navegación (carrito, usuario)
+- El menú móvil y su comportamiento
+- La sección de búsqueda
+*/
+
+/* ============================================= */
+/* HEADER PRINCIPAL                             */
+/* ============================================= */
+
+/* Estilo base del header */
+.main-header {
+    background-color: var(--light-color); /* Fondo blanco */
+    box-shadow: var(--box-shadow); /* Sombra sutil */
+    position: fixed; /* Fijo en la parte superior */
+    width: 100%; /* Ancho completo */
+    height: var(--header-height-extended); /* Altura extendida (incluye espacio para búsqueda) */
+    top: 0; /* Pegado al borde superior */
+    z-index: var(--z-fixed); /* Asegura que esté sobre otros elementos */
+    transition: var(--transition); /* Transición suave para efectos */
+    border-bottom: 1px solid var(--gray-light); /* Borde sutil inferior */
+}
+
+/* Variante simple del header (menos altura) */
+.main-header.simple {
+    height: var(--header-height); /* Altura reducida */
+}
+
+/* Contenedor interno del header */
+.main-header .container {
+    height: 100%; /* Ocupa toda la altura del header */
+    display: flex; /* Layout flexible */
+    justify-content: space-between; /* Espacio entre elementos */
+    align-items: center; /* Centrado vertical */
+    padding: var(--space-base) var(--container-padding); /* Relleno interno */
+}
+
+/* ============================================= */
+/* LOGO Y MARCA                                 */
+/* ============================================= */
+
+/* Contenedor del logo y texto */
+.logo-container {
+    display: flex; /* Organiza logo y texto en línea */
+    align-items: center; /* Centrado vertical */
+    gap: var(--space-lg); /* Espacio entre logo y texto */
+    flex: 1; /* Ocupa espacio disponible */
+    max-width: 400px; /* Ancho máximo */
+    min-width: 200px; /* Ancho mínimo */
+    overflow: hidden; /* Evita desbordamiento */
+    white-space: nowrap; /* Evita saltos de línea */
+    text-overflow: ellipsis; /* Puntos suspensivos si el texto es muy largo */
+}
+
+/* Estilo de la imagen del logo */
+.logo {
+    height: 80px; /* Altura fija */
+    width: auto; /* Ancho automático */
+    max-width: 120px; /* Ancho máximo */
+    object-fit: contain; /* Mantiene proporciones */
+    transition: var(--transition); /* Transición para efectos hover */
+}
+
+/* Efecto hover para el logo */
+.logo:hover {
+    transform: scale(1.05); /* Ligero aumento de tamaño */
+}
+
+/* Estilo del texto del logo */
+.logo-text {
+    font-family: var(--title-font); /* Fuente especial */
+    font-size: var(--font-2xl); /* Tamaño grande */
+    font-weight: 700; /* Negrita */
+    color: var(--primary-color); /* Color amarillo */
+    letter-spacing: 1px; /* Espaciado entre letras */
+    text-transform: uppercase; /* Texto en mayúsculas */
+    line-height: 1.2; /* Altura de línea */
+    transition: var(--transition); /* Transición para efectos hover */
+}
+
+/* Efecto hover para el texto del logo */
+.logo-text:hover {
+    color: var(--gold-dark); /* Color amarillo oscuro */
+}
+
+/* Responsive del logo */
+
+/* Tablet (hasta 768px) */
+@media (max-width: 768px) {
+    .logo {
+        height: 45px; /* Altura reducida */
+        max-width: 60px; /* Ancho máximo reducido */
+    }
+    
+    .logo-text {
+        font-size: var(--font-lg); /* Tamaño de fuente reducido */
+    }
+}
+
+/* Móvil pequeño (hasta 480px) */
+@media (max-width: 480px) {
+    .logo-container {
+        gap: var(--space-sm); /* Espacio reducido */
+        min-width: 150px; /* Ancho mínimo reducido */
+    }
+    
+    .logo {
+        height: 35px; /* Altura más reducida */
+        max-width: 50px; /* Ancho máximo más reducido */
+    }
+    
+    .logo-text {
+        font-size: var(--font-base); /* Tamaño de fuente base */
+    }
+}
+
+/* ============================================= */
+/* NAVEGACIÓN PRINCIPAL                         */
+/* ============================================= */
+
+/* Contenedor de navegación principal */
+.main-nav {
+    display: flex; /* Layout flexible */
+    align-items: center; /* Centrado vertical */
+    height: 100%; /* Ocupa toda la altura del header */
+}
+
+/* Lista de navegación */
+.main-nav ul {
+    display: flex; /* Organiza items en línea */
+    list-style: none; /* Elimina estilos de lista */
+    align-items: center; /* Centrado vertical */
+    gap: var(--space-xl); /* Espacio entre items */
+    margin: 0; /* Sin margen */
+    padding: 0; /* Sin relleno */
+}
+
+/* Items de navegación */
+.main-nav li {
+    position: relative; /* Para elementos hijos absolutos */
+}
+
+/* Enlaces de navegación */
+.nav-link {
+    color: var(--dark-color); /* Color oscuro */
+    text-decoration: none; /* Sin subrayado */
+    font-weight: 600; /* Semi-negrita */
+    font-size: var(--font-base); /* Tamaño base */
+    letter-spacing: 0.5px; /* Espaciado entre letras */
+    transition: var(--transition); /* Transición para efectos */
+    position: relative; /* Para pseudo-elementos */
+    padding: var(--space-sm) 0; /* Relleno vertical */
+    text-transform: uppercase; /* Texto en mayúsculas */
+}
+
+/* Subrayado animado */
+.nav-link::after {
+    content: ''; /* Contenido vacío */
+    position: absolute; /* Posición absoluta respecto al enlace */
+    width: 0; /* Inicialmente sin ancho */
+    height: 2px; /* Altura del subrayado */
+    bottom: 0; /* Posicionado abajo */
+    left: 0; /* Alineado a la izquierda */
+    background-color: var(--primary-color); /* Color amarillo */
+    transition: var(--transition); /* Transición suave */
+}
+
+/* Efecto hover para enlaces */
+.nav-link:hover {
+    color: var(--primary-color); /* Color amarillo */
+}
+
+/* Animación del subrayado al hacer hover */
+.nav-link:hover::after {
+    width: 100%; /* Ancho completo */
+}
+
+/* Estilo para enlaces con foco (accesibilidad) */
+.nav-link:focus {
+    outline: 2px solid var(--primary-color); /* Contorno visible */
+    outline-offset: 4px; /* Espacio entre contorno y elemento */
+    border-radius: var(--radius-sm); /* Bordes redondeados */
+}
+
+/* Enlace activo (página actual) */
+.nav-link.active {
+    color: var(--primary-color); /* Color amarillo */
+}
+
+/* Subrayado completo para enlace activo */
+.nav-link.active::after {
+    width: 100%; /* Ancho completo */
+}
+
+/* ============================================= */
+/* ICONOS DE NAVEGACIÓN                         */
+/* ============================================= */
+
+/* Estilo base para iconos (carrito, usuario) */
+.nav-icon {
+    display: flex; /* Centra el icono */
+    align-items: center; /* Centrado vertical */
+    justify-content: center; /* Centrado horizontal */
+    width: 45px; /* Ancho fijo */
+    height: 45px; /* Altura fija */
+    border-radius: var(--radius-full); /* Forma circular */
+    color: var(--dark-color); /* Color oscuro */
+    text-decoration: none; /* Sin subrayado */
+    transition: var(--transition); /* Transición para efectos */
+    position: relative; /* Para contador absoluto */
+    border: 2px solid transparent; /* Borde transparente */
+}
+
+/* Efecto hover para iconos */
+.nav-icon:hover {
+    background-color: var(--primary-color); /* Fondo amarillo */
+    border-color: var(--primary-color); /* Borde amarillo */
+    color: var(--dark-color); /* Color oscuro */
+    transform: translateY(-2px); /* Efecto de levitación */
+    box-shadow: var(--box-shadow-sm); /* Sombra sutil */
+}
+
+/* Estilo del icono dentro del botón */
+.nav-icon i {
+    font-size: var(--font-lg); /* Tamaño grande */
+}
+
+/* Contenedor específico para icono de carrito */
+.cart-icon {
+    position: relative; /* Para el contador absoluto */
+}
+
+/* Contador de items en el carrito */
+.cart-count {
+    position: absolute; /* Posición absoluta respecto al icono */
+    top: -8px; /* Desde arriba */
+    right: -8px; /* Desde la derecha */
+    background-color: var(--error-color); /* Fondo rojo */
+    color: var(--light-color); /* Texto blanco */
+    font-size: var(--font-xs); /* Tamaño muy pequeño */
+    font-weight: 700; /* Negrita */
+    padding: 2px 6px; /* Relleno mínimo */
+    border-radius: var(--radius-full); /* Forma circular */
+    min-width: 20px; /* Ancho mínimo */
+    height: 20px; /* Altura fija */
+    display: flex; /* Centra el número */
+    align-items: center; /* Centrado vertical */
+    justify-content: center; /* Centrado horizontal */
+    line-height: 1; /* Altura de línea */
+    animation: pulse 2s infinite; /* Animación de pulso */
+}
+
+/* Animación de pulso para el contador */
+@keyframes pulse {
+    0% {
+        transform: scale(1); /* Tamaño normal */
+    }
+    50% {
+        transform: scale(1.1); /* Ligero aumento */
+    }
+    100% {
+        transform: scale(1); /* Vuelve al tamaño normal */
+    }
+}
+
+/* ============================================= */
+/* BOTÓN DE MENÚ MÓVIL                          */
+/* ============================================= */
+
+/* Estilo del botón de menú móvil */
+.mobile-menu-btn {
+    display: none; /* Oculto por defecto (solo visible en móvil) */
+    background: none; /* Sin fondo */
+    border: none; /* Sin borde */
+    font-size: var(--font-2xl); /* Tamaño grande */
+    color: var(--dark-color); /* Color oscuro */
+    cursor: pointer; /* Cursor de pointer */
+    padding: var(--space-sm); /* Relleno */
+    border-radius: var(--radius); /* Bordes redondeados */
+    transition: var(--transition); /* Transición para efectos */
+    z-index: var(--z-modal); /* Asegura que esté sobre otros elementos */
+}
+
+/* Efecto hover para botón móvil */
+.mobile-menu-btn:hover {
+    background-color: var(--gray-light); /* Fondo gris claro */
+    color: var(--primary-color); /* Color amarillo */
+}
+
+/* Estilo para botón con foco (accesibilidad) */
+.mobile-menu-btn:focus {
+    outline: 2px solid var(--primary-color); /* Contorno visible */
+    outline-offset: 2px; /* Espacio entre contorno y elemento */
+}
+
+/* Estilo cuando el menú está activo */
+.mobile-menu-btn.active {
+    color: var(--primary-color); /* Color amarillo */
+    background-color: var(--gray-light); /* Fondo gris claro */
+}
+
+/* ============================================= */
+/* SECCIÓN DE BÚSQUEDA EN HEADER               */
+/* ============================================= */
+
+/* Sección de búsqueda debajo del header */
+.search-section {
+    background-color: var(--light-color); /* Fondo blanco */
+    padding: var(--space-lg) 0; /* Relleno vertical */
+    box-shadow: var(--box-shadow-sm); /* Sombra sutil */
+    border-bottom: 1px solid var(--gray-light); /* Borde inferior */
+    position: relative; /* Para elementos hijos absolutos */
+}
+
+/* Contenedor de elementos de búsqueda */
+.search-container {
+    display: flex; /* Organiza elementos en línea */
+    justify-content: center; /* Centrado horizontal */
+    align-items: center; /* Centrado vertical */
+    flex-wrap: wrap; /* Permite múltiples líneas */
+    gap: var(--space-lg); /* Espacio entre elementos */
+    width: 100%; /* Ancho completo */
+    max-width: var(--container-max-width); /* Ancho máximo */
+    margin: 0 auto; /* Centrado horizontal */
+    padding: 0 var(--container-padding); /* Relleno horizontal */
+}
+
+/* Contenedor del campo de búsqueda */
+.search-box {
+    flex: 1; /* Ocupa espacio disponible */
+    min-width: 300px; /* Ancho mínimo */
+    max-width: 600px; /* Ancho máximo */
+    position: relative; /* Para el botón de búsqueda absoluto */
+}
+
+/* Contenedor del filtro */
+.filter-box {
+    min-width: 200px; /* Ancho mínimo */
+    max-width: 250px; /* Ancho máximo */
+    position: relative; /* Para elementos hijos absolutos */
+}
+
+/* Estilos responsive para búsqueda */
+
+/* Tablet y móvil (hasta 768px) */
+@media (max-width: 768px) {
+    .search-section {
+        padding: var(--space-base) 0; /* Relleno reducido */
+    }
+    
+    .search-container {
+        flex-direction: column; /* Organiza en columna */
+        gap: var(--space-base); /* Espacio reducido */
+    }
+    
+    /* Ajusta ancho de elementos de búsqueda */
+    .search-box,
+    .filter-box {
+        width: 100%; /* Ancho completo */
+        max-width: 100%; /* Sin ancho máximo */
+        min-width: auto; /* Sin ancho mínimo */
+    }
+}
+
+/* ============================================= */
+/* NAVEGACIÓN MÓVIL                             */
+/* ============================================= */
+
+/* Estilos específicos para móvil (hasta 768px) */
+@media (max-width: 768px) {
+    /* Mostrar botón móvil */
+    .mobile-menu-btn {
+        display: block;
+    }
+    
+    /* Ocultar navegación principal */
+    .main-nav {
+        position: fixed; /* Posición fija */
+        top: var(--header-height); /* Debajo del header */
+        left: -100%; /* Fuera de pantalla */
+        width: 85%; /* Ancho del 85% */
+        max-width: 300px; /* Ancho máximo */
+        height: calc(100vh - var(--header-height)); /* Altura completa menos header */
+        background-color: var(--light-color); /* Fondo blanco */
+        flex-direction: column; /* Organiza en columna */
+        align-items: flex-start; /* Alineación a la izquierda */
+        padding: var(--space-2xl) var(--space-lg); /* Relleno */
+        box-shadow: var(--box-shadow-lg); /* Sombra pronunciada */
+        transition: var(--transition); /* Transición suave */
+        z-index: var(--z-modal); /* Sobre otros elementos */
+        overflow-y: auto; /* Scroll si es necesario */
+        border-right: 1px solid var(--gray-light); /* Borde derecho */
+    }
+    
+    /* Mostrar navegación cuando está activa */
+    .main-nav.active {
+        left: 0; /* Visible */
+    }
+    
+    /* Estilo de la lista en móvil */
+    .main-nav ul {
+        flex-direction: column; /* Organiza en columna */
+        gap: 0; /* Sin espacio entre items */
+        width: 100%; /* Ancho completo */
+        align-items: stretch; /* Ocupa todo el ancho */
+    }
+    
+    /* Items de navegación en móvil */
+    .main-nav li {
+        width: 100%; /* Ancho completo */
+        border-bottom: 1px solid var(--gray-light); /* Borde inferior */
+    }
+    
+    /* Elimina borde del último item */
+    .main-nav li:last-child {
+        border-bottom: none;
+    }
+    
+    /* Enlaces en móvil */
+    .nav-link {
+        display: block; /* Ocupa toda la línea */
+        padding: var(--space-lg) var(--space-base); /* Relleno amplio */
+        font-size: var(--font-lg); /* Tamaño grande */
+        width: 100%; /* Ancho completo */
+        border-radius: var(--radius); /* Bordes redondeados */
+        margin-bottom: var(--space-sm); /* Margen inferior */
+    }
+    
+    /* Efecto hover para enlaces en móvil */
+    .nav-link:hover {
+        background-color: var(--gray-light); /* Fondo gris claro */
+        transform: translateX(5px); /* Desplazamiento horizontal */
+    }
+    
+    /* Oculta el subrayado animado en móvil */
+    .nav-link::after {
+        display: none;
+    }
+    
+    /* Iconos de navegación en móvil */
+    .nav-icon {
+        width: 100%; /* Ancho completo */
+        height: 60px; /* Altura fija */
+        justify-content: flex-start; /* Alineación a la izquierda */
+        padding-left: var(--space-base); /* Relleno izquierdo */
+        margin-bottom: var(--space-sm); /* Margen inferior */
+        border-radius: var(--radius); /* Bordes redondeados */
+        border: 2px solid var(--gray-light); /* Borde gris */
+    }
+    
+    /* Efecto hover para iconos en móvil */
+    .nav-icon:hover {
+        background-color: var(--primary-color); /* Fondo amarillo */
+        border-color: var(--primary-color); /* Borde amarillo */
+        transform: translateX(5px); /* Desplazamiento horizontal */
+    }
+    
+    /* Espacio para iconos en móvil */
+    .nav-icon i {
+        margin-right: var(--space-base); /* Margen derecho */
+    }
+    
+    /* Separador visual en menú móvil */
+    .mobile-nav-separator {
+        width: 100%; /* Ancho completo */
+        height: 1px; /* Altura mínima */
+        background-color: var(--gray-light); /* Color gris */
+        margin: var(--space-lg) 0; /* Margen vertical */
+    }
+}
+
+/* ============================================= */
+/* OVERLAY PARA MENÚ MÓVIL                      */
+/* ============================================= */
+
+/* Fondo oscuro cuando el menú móvil está activo */
+.mobile-menu-overlay {
+    position: fixed; /* Posición fija */
+    top: 0; /* Desde arriba */
+    left: 0; /* Desde la izquierda */
+    width: 100%; /* Ancho completo */
+    height: 100%; /* Altura completa */
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    z-index: var(--z-dropdown); /* Debajo del menú pero sobre el contenido */
+    opacity: 0; /* Inicialmente transparente */
+    visibility: hidden; /* Inicialmente oculto */
+    transition: var(--transition); /* Transición suave */
+}
+
+/* Estado activo del overlay */
+.mobile-menu-overlay.active {
+    opacity: 1; /* Visible */
+    visibility: visible; /* Visible */
+}
+
+/* ============================================= */
+/* HEADER PEGAJOSO (STICKY)                     */
+/* ============================================= */
+
+/* Estilo cuando se hace scroll */
+.main-header.scrolled {
+    height: var(--header-height); /* Altura reducida */
+    box-shadow: var(--box-shadow-md); /* Sombra más pronunciada */
+    background-color: rgba(255, 255, 255, 0.95); /* Fondo semitransparente */
+    backdrop-filter: blur(10px); /* Efecto de desenfoque */
+}
+
+/* Ajustes del logo cuando hay scroll */
+.main-header.scrolled .logo {
+    height: 40px; /* Altura reducida */
+    max-width: 60px; /* Ancho máximo reducido */
+}
+
+.main-header.scrolled .logo-text {
+    font-size: var(--font-lg); /* Tamaño de fuente reducido */
+}
+
+/* Oculta la sección de búsqueda al hacer scroll */
+.main-header.scrolled .search-section {
+    display: none;
+}
+
+/* ============================================= */
+/* BREADCRUMBS (MIGAS DE PAN)                   */
+/* ============================================= */
+
+/* Estilo de la navegación secundaria (breadcrumbs) */
+.breadcrumbs {
+    background-color: var(--gray-light); /* Fondo gris claro */
+    padding: var(--space-base) 0; /* Relleno vertical */
+    font-size: var(--font-sm); /* Tamaño pequeño */
+    border-bottom: 1px solid var(--gray-medium); /* Borde inferior */
+}
+
+/* Contenedor de breadcrumbs */
+.breadcrumbs-container {
+    display: flex; /* Organiza elementos en línea */
+    align-items: center; /* Centrado vertical */
+    gap: var(--space-sm); /* Espacio entre elementos */
+    flex-wrap: wrap; /* Permite múltiples líneas */
+}
+
+/* Items de breadcrumbs */
+.breadcrumb-item {
+    color: var(--gray-dark); /* Color gris oscuro */
+    text-decoration: none; /* Sin subrayado */
+    transition: var(--transition); /* Transición para efectos */
+}
+
+/* Efecto hover para items */
+.breadcrumb-item:hover {
+    color: var(--primary-color); /* Color amarillo */
+}
+
+/* Item activo (página actual) */
+.breadcrumb-item.active {
+    color: var(--dark-color); /* Color oscuro */
+    font-weight: 600; /* Negrita */
+}
+
+/* Separador entre items */
+.breadcrumb-separator {
+    color: var(--gray-medium); /* Color gris medio */
+    margin: 0 var(--space-xs); /* Margen horizontal pequeño */
+}
+
+/* ============================================= */
+/* ESTADOS ESPECIALES DEL HEADER               */
+/* ============================================= */
+
+/* Header transparente (para páginas con fondo especial) */
+.main-header.transparent {
+    background-color: transparent; /* Sin fondo */
+    box-shadow: none; /* Sin sombra */
+}
+
+/* Estilo de enlaces en header transparente */
+.main-header.transparent .nav-link {
+    color: var(--light-color); /* Color claro */
+}
+
+.main-header.transparent .nav-icon {
+    color: var(--light-color); /* Color claro */
+}
+
+.main-header.transparent .logo-text {
+    color: var(--light-color); /* Color claro */
+}
+
+/* Header con fondo oscuro */
+.main-header.dark {
+    background-color: var(--dark-color); /* Fondo oscuro */
+    color: var(--light-color); /* Texto claro */
+}
+
+/* Estilo de enlaces en header oscuro */
+.main-header.dark .nav-link {
+    color: var(--light-color); /* Color claro */
+}
+
+.main-header.dark .nav-link:hover {
+    color: var(--primary-color); /* Color amarillo al hover */
+}
+
+.main-header.dark .nav-icon {
+    color: var(--light-color); /* Color claro */
+}
+
+.main-header.dark .mobile-menu-btn {
+    color: var(--light-color); /* Color claro */
+}

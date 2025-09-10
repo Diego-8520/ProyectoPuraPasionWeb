@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pura Pasión FC - Tienda Premium de Artículos Deportivos</title>
+    <link rel="stylesheet" href="./Frontend/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo-container">
+                <img src="./Frontend/assets/img/LogoPuraPasionv3-negro.svg" alt="Logo Pura Pasión FC" class="logo">
+                <span class="logo-text">PURA PASIÓN FC</span>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#catalogo" class="nav-link">Catálogo</a></li>
+                    <li><a href="#sobreNosotros" class="nav-link">Nosotros</a></li>
+                    <li><a href="#contacto" class="nav-link">Contacto</a></li>
+                    <li><a href="#inputBusqueda" class="nav-icon"><i class="fas fa-search"></i></a></li>
+                    <li><a href="#" class="nav-icon"><i class="fas fa-user"></i></a></li>
+                    <li><a href="#" class="nav-icon cart-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <section id="inputBusqueda" class="search-section">
+            <div class="container">
+                <div class="search-container">
+                    <div class="search-box">
+                        <input type="text" id="inputBusquedaNombre" placeholder="Buscar productos...">
+                        <button id="buscarProducto" class="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <div class="filter-box">
+                        <select id="filtroCategoria" class="category-filter">
+                            <option value="todos">Todas las categorías</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="catalogo" class="products-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Nuestros Productos</h2>
+                    <p class="section-subtitle">Descubre nuestra selección exclusiva</p>
+                </div>
+                <div class="category-tabs">
+                    <button class="category-tab active">Todos</button>
+                    <button class="category-tab">Fútbol Colombiano</button>
+                    <button class="category-tab">Fútbol Europeo</button>
+                    <button class="category-tab">Accesorios</button>
+                    <button class="category-tab">Ofertas</button>
+                </div>
+                <div id="nuestroCatalogo" class="products-grid">
+                    <!-- Los productos se cargarán aquí dinámicamente -->
+                </div>
+                <div class="view-more">
+                    <button class="btn btn-outline">Ver más productos</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-section">
+            <div class="container">
+                <div id="sobreNosotros" class="about-content">
+                    <h2 class="section-title">SOBRE NOSOTROS</h2>
+                    <p>Pura Pasión FC nació del amor por el fútbol y el deseo de ofrecer productos de máxima calidad. Nos enorgullecemos de ser una marca colombiana que representa la pasión por el deporte con elegancia y estilo.</p>
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">10+</span>
+                            <span class="stat-label">Años en el mercado</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">100%</span>
+                            <span class="stat-label">Calidad garantizada</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">∞</span>
+                            <span class="stat-label">Pasión por el fútbol</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-section">
+            <div class="container"  id="contacto">
+                <div class="contact-container" >
+                    <div class="contact-info">
+                        <h2 class="section-title">CONTÁCTANOS</h2>
+                        <p>Estamos aquí para atenderte y responder todas tus preguntas.</p>
+                        <div class="contact-methods">
+                            <div class="contact-item">
+                                <i class="fas fa-phone-alt"></i>
+                                <span>+57 3043401416</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span>purapasion2020@gmail.com</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Calle 71 #1A-13, Alcazares, Cali, Colombia</span>
+                            </div>
+                        </div>
+                        <div class="social-links">
+                            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                            <a href="https://wa.me/3043401416" target="_blank" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+
+                    <div class ="map-container">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d248.90127968583514!2d-76.49116057068453!3d3.4896415778762444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sco!4v1752930346079!5m2!1ses!2sco" 
+                            class="contact-map"
+                            width="500" /* Ajusta el ancho según sea necesario */
+                            height="300" /* Ajusta la altura según sea necesario */
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="logo-container">
+                        <img src="./Frontend/assets/img/LogoPuraPasionv3-blanco.svg" alt="Logo Pura Pasión FC" class="footer-logo">
+                        <span class="logo-text">PURA PASIÓN FC</span>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-title">Enlaces Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Inicio</a></li>
+                        <li><a href="#catalogo">Productos</a></li>
+                        <li><a href="#sobreNosotros">Nosotros</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-title">Categorías</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Fútbol Colombiano</a></li>
+                        <li><a href="#">Fútbol Europeo</a></li>
+                        <li><a href="#">Balones</a></li>
+                        <li><a href="#">Botines</a></li>
+                        <li><a href="#">Accesorios</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Pura Pasión FC. Todos los derechos reservados.</p>
+                <div class="payment-methods">
+                    <i class="fab fa-cc-visa"></i>
+                    <i class="fab fa-cc-mastercard"></i>
+                    <i class="fab fa-cc-amex"></i>
+                    <i class="fab fa-cc-paypal"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { cargarProductos } from './Frontend/js/cargueInventario.js';
+        import { aplicarFiltros, setupMobileMenu } from './Frontend/js/funcionesWeb.js';
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            cargarProductos();
+            aplicarFiltros();
+            setupMobileMenu(); // Añade esta línea
+        });
+    </script>
+    <script type="module" src="/PuraPasionWeb/Frontend/js/funcionesWeb.js"></script>
+</body>
+</html>
