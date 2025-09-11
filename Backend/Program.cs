@@ -7,17 +7,17 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // --- Configuración de Servicios ---
-// 1. Contexto de la base de datos - PROBANDO FORMATO DIFERENTE
+// 1. Contexto de la base de datos (PostgreSQL con Supabase)
 var connectionString = "Host=db.abqrbbqquhzkgbkmizpu.supabase.co;Port=5432;Database=postgres;Username=postgres;Password=Supertienda19999;SSL Mode=Require;Trust Server Certificate=true;";
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
 
-// 2. Configura CORS
+// 2. Configura CORS (Frontend-Backend)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("FrontendPolicy", policy =>
     {
-        policy.WithOrigins("http://localhost:5500", "http://127.0.0.1:5500")
+        policy.WithOrigins("http://localhost:5500", "http://127.0.0.1:5500")  // Ajusta según el puerto de tu frontend
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();
@@ -29,7 +29,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// 4. Autenticación JWT (Supabase) - SIMPLIFICADA PARA EMPEZAR
+// 4. Autenticación JWT (Supabase) - SIMPLIFICADA
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -54,6 +54,22 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
+/*
+Cuidado,  siempre debe tener este orden:
+
+UseHttpsRedirection()
+
+UseCors() ← ¡ANTES de Authentication!
+
+UseAuthentication() ← ¡ANTES de Authorization!
+
+UseAuthorization()
+
+MapControllers()
+*/
+
 
 app.UseHttpsRedirection();
 app.UseCors("FrontendPolicy");

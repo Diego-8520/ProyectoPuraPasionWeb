@@ -1,7 +1,7 @@
 import { aplicarFiltros } from './funcionesWeb.js';
 
 // 1. Configuración de la API
-const API_URL = 'https://localhost:7272/api'; // Tu API local
+const API_URL = 'https://localhost:7272/api'; // API local
 export let productosGlobal = [];
 
 // 2. Función principal para cargar productos
