@@ -21,3 +21,25 @@ Thumbs.db
 # Configuraciones específicas de desarrollo
 Backend/Properties/launchSettings.json
 Backend/appsettings.Development.json
+
+# Archivos de usuario de VS
+*.userprefs
+
+# Paquetes NuGet (se restauran automáticamente)
+**/packages/
+
+# Archivos de resumen de NuGet
+*.nuget.props
+*.nuget.targets
+
+# Output de Entity Framework
+Backend/Migrations/*.Designer.cs
+
+# Archivos de certificados SSL
+*.pfx
+*.pem
+
+# Configuración de la aplicación
+appsettings.json
+appsettings.*.json
+!appsettings.example.json
