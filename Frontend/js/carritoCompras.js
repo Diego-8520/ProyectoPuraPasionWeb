@@ -6,12 +6,7 @@ import { productosGlobal, carrito, guardarCarrito, actualizarContadorGlobal } fr
 // 1. Configuración de la API
 const API_URL = 'https://localhost:7272/api';
 
-// 2. Función para obtener el carrito (usa la variable global directamente)
-function obtenerCarrito() {
-    return carrito;
-}
-
-// 3. Función para mostrar los productos en el carrito
+// 2. Función para mostrar los productos en el carrito
 export async function mostrarCarrito() {
     const emptyCart = document.getElementById('emptyCart');
     const cartWithItems = document.getElementById('cartWithItems');
@@ -27,10 +22,9 @@ export async function mostrarCarrito() {
     const carritoContainer = document.getElementById('carritoContainer');
     const subtotalElement = document.getElementById('subtotal');
     const totalContainer = document.getElementById('totalContainer');
-    const carritoActual = obtenerCarrito();
     
     // Mostrar estado vacío o con productos
-    if (carritoActual.length === 0) {
+    if (carrito.length === 0) {
         emptyCart.style.display = 'block';
         cartWithItems.style.display = 'none';
         actualizarContadorGlobal();
@@ -44,33 +38,36 @@ export async function mostrarCarrito() {
     carritoContainer.innerHTML = '';
     let subtotal = 0;
 
-    carritoActual.forEach(item => {
-        const producto = productosGlobal.find(p => p.id == item.productoId);
+    carrito.forEach(item => {
+        const producto = productosGlobal.find(p => p.id === item.productoId);
         if (producto) {
             const itemTotal = producto.precio * item.cantidad;
             subtotal += itemTotal;
             
             const itemDiv = document.createElement('div');
-            itemDiv.className = 'cart-item';
+            itemDiv.className = 'product-card';
             itemDiv.innerHTML = `
-                <div class="cart-item-image">
+                <div class="product-image-container">
                     <img src="${producto.imagenUrl || './Frontend/assets/img/default-product.jpg'}" 
-                         alt="${producto.nombre}" />
+                         alt="${producto.nombre}"
+                         class="product-image" />
                 </div>
-                <div class="cart-item-details">
-                    <h4 class="cart-item-title">${producto.nombre}</h4>
-                    <p class="cart-item-category">${producto.categoria}</p>
-                    <p class="cart-item-price">$${producto.precio.toLocaleString()}</p>
+                <div class="product-info">
+                    <h3 class="product-title">${producto.nombre}</h3>
+                    <p class="product-category">${producto.categoria}</p>
+                    <div class="product-price">
+                        <span class="current-price">$${producto.precio.toLocaleString()}</span>
+                    </div>
                 </div>
-                <div class="cart-item-quantity">
+                <div class="btn btn-small">
                     <button class="quantity-btn" data-id="${producto.id}" data-action="decrease">-</button>
                     <span class="quantity-number">${item.cantidad}</span>
                     <button class="quantity-btn" data-id="${producto.id}" data-action="increase">+</button>
                 </div>
-                <div class="cart-item-total">
+                <div class="product-price">
                     <span>$${itemTotal.toLocaleString()}</span>
                 </div>
-                <button class="remove-btn" data-id="${producto.id}">
+                <button class=""btn btn-primary btn-small add-to-cart-btn" data-id="${producto.id}">
                     <i class="fas fa-trash"></i>
                 </button>
             `;
@@ -87,12 +84,15 @@ export async function mostrarCarrito() {
     agregarEventListenersCarrito();
 }
 
-// 4. Función para agregar event listeners a los botones del carrito
+// 3. Función para agregar event listeners a los botones del carrito
 function agregarEventListenersCarrito() {
     // Botones de eliminar
     document.querySelectorAll('.remove-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
             const productoId = parseInt(e.currentTarget.getAttribute('data-id'));
+            console.log('Eliminando producto con ID:', productoId);
             eliminarDelCarrito(productoId);
         });
     });
@@ -100,6 +100,8 @@ function agregarEventListenersCarrito() {
     // Botones de cantidad (aumentar/disminuir)
     document.querySelectorAll('.quantity-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
             const productoId = parseInt(e.currentTarget.getAttribute('data-id'));
             const action = e.currentTarget.getAttribute('data-action');
             actualizarCantidad(productoId, action);
@@ -109,41 +111,66 @@ function agregarEventListenersCarrito() {
     // Botón de checkout
     const checkoutBtn = document.getElementById('checkoutBtn');
     if (checkoutBtn) {
-        checkoutBtn.addEventListener('click', procederAlPago);
+        // Remover listener anterior para evitar duplicados
+        const newCheckoutBtn = checkoutBtn.cloneNode(true);
+        checkoutBtn.parentNode.replaceChild(newCheckoutBtn, checkoutBtn);
+        newCheckoutBtn.addEventListener('click', procederAlPago);
     }
 }
 
-// 5. Función para eliminar producto del carrito
+// 4. Función para eliminar producto del carrito
 function eliminarDelCarrito(productoId) {
-    const nuevoCarrito = carrito.filter(item => item.productoId !== productoId);
+    console.log('Carrito antes de eliminar:', carrito);
+    console.log('Intentando eliminar producto ID:', productoId);
+    
+    // Filtrar el carrito para excluir el producto
+    const nuevoCarrito = carrito.filter(item => {
+        console.log('Comparando:', item.productoId, '!==', productoId);
+        return item.productoId !== productoId;
+    });
+    
+    console.log('Carrito después de filtrar:', nuevoCarrito);
+    
+    // Guardar el nuevo carrito
     guardarCarrito(nuevoCarrito);
+    
+    // Mostrar mensaje
     mostrarMensaje('Producto eliminado del carrito');
-    mostrarCarrito(); // Actualizar la vista
+    
+    // Actualizar la vista
+    mostrarCarrito();
 }
 
-// 6. Función para actualizar cantidad
+// 5. Función para actualizar cantidad
 function actualizarCantidad(productoId, action) {
+    console.log('Actualizando cantidad:', productoId, action);
+    
+    // Crear una copia del carrito
     const nuevoCarrito = [...carrito];
     const itemIndex = nuevoCarrito.findIndex(item => item.productoId === productoId);
     
     if (itemIndex !== -1) {
         if (action === 'increase') {
             nuevoCarrito[itemIndex].cantidad += 1;
+            mostrarMensaje('Cantidad actualizada');
         } else if (action === 'decrease') {
             if (nuevoCarrito[itemIndex].cantidad > 1) {
                 nuevoCarrito[itemIndex].cantidad -= 1;
+                mostrarMensaje('Cantidad actualizada');
             } else {
                 // Si la cantidad es 1 y se quiere disminuir, eliminar el producto
                 nuevoCarrito.splice(itemIndex, 1);
                 mostrarMensaje('Producto eliminado del carrito');
             }
         }
+        
+        // Guardar y actualizar
         guardarCarrito(nuevoCarrito);
-        mostrarCarrito(); // Actualizar la vista
+        mostrarCarrito();
     }
 }
 
-// 7. Función para proceder al pago (WhatsApp)
+// 6. Función para proceder al pago (WhatsApp)
 function procederAlPago() {
     if (carrito.length === 0) {
         mostrarMensaje('El carrito está vacío', 'error');
@@ -152,68 +179,114 @@ function procederAlPago() {
 
     // Crear mensaje para WhatsApp
     let mensaje = "¡Hola! Estoy interesado en los siguientes productos:\n\n";
+    let total = 0;
     
     carrito.forEach(item => {
-        const producto = productosGlobal.find(p => p.id == item.productoId);
+        const producto = productosGlobal.find(p => p.id === item.productoId);
         if (producto) {
-            mensaje += `• ${producto.nombre} - Cantidad: ${item.cantidad} - $${producto.precio * item.cantidad}\n`;
+            const subtotal = producto.precio * item.cantidad;
+            total += subtotal;
+            mensaje += `• ${producto.nombre}\n`;
+            mensaje += `  Cantidad: ${item.cantidad}\n`;
+            mensaje += `  Subtotal: $${subtotal.toLocaleString()}\n\n`;
         }
     });
 
-    mensaje += `\nTotal: $${calcularTotalCarrito().toLocaleString()}\n`;
-    mensaje += `\nEnlace al carrito: ${window.location.href}`;
+    mensaje += `📦 TOTAL: $${total.toLocaleString()}\n\n`;
+    mensaje += `Por favor, confirma la disponibilidad y coordinemos el pago.`;
 
     // Abrir WhatsApp
-    window.open(`https://wa.me/573043401416?text=${encodeURIComponent(mensaje)}`, '_blank');
+    const numeroWhatsApp = '573043401416';
+    const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
+    window.open(urlWhatsApp, '_blank');
+    
+    mostrarMensaje('Redirigiendo a WhatsApp...');
 }
 
-// 8. Función para calcular el total del carrito
-function calcularTotalCarrito() {
-    return carrito.reduce((total, item) => {
-        const producto = productosGlobal.find(p => p.id == item.productoId);
-        return total + (producto ? producto.precio * item.cantidad : 0);
-    }, 0);
-}
-
-// 9. Función para agregar productos al carrito
+// 7. Función para agregar productos al carrito
 export function agregarAlCarrito(productoId, cantidad = 1) {
+    console.log('Agregando al carrito:', productoId, 'cantidad:', cantidad);
+    
+    // Asegurarse de que el productoId sea un número
+    productoId = parseInt(productoId);
+    
+    // Crear una copia del carrito actual
     const nuevoCarrito = [...carrito];
+    
+    // Buscar si el producto ya existe en el carrito
     const itemIndex = nuevoCarrito.findIndex(item => item.productoId === productoId);
     
     if (itemIndex !== -1) {
+        // Si existe, aumentar la cantidad
         nuevoCarrito[itemIndex].cantidad += cantidad;
+        mostrarMensaje('Producto actualizado en el carrito');
     } else {
-        nuevoCarrito.push({ productoId, cantidad });
+        // Si no existe, agregarlo
+        nuevoCarrito.push({ 
+            productoId: productoId, 
+            cantidad: cantidad 
+        });
+        mostrarMensaje('Producto agregado al carrito');
     }
     
+    // Guardar el carrito actualizado
     guardarCarrito(nuevoCarrito);
-    actualizarContadorGlobal();
-    mostrarMensaje('Producto agregado al carrito');
-}
-
-// 10. Inicialización del carrito
-function inicializarCarrito() {
-    const emptyCart = document.getElementById('emptyCart');
-    if (emptyCart) {
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                if (productosGlobal.length === 0) {
-                    await cargarProductos();
-                }
-                mostrarCarrito();
-            } catch (error) {
-                console.error('Error en inicialización:', error);
-            }
-        });
+    
+    // Si estamos en la página del carrito, actualizar la vista
+    const carritoContainer = document.getElementById('carritoContainer');
+    if (carritoContainer) {
+        mostrarCarrito();
     }
 }
 
-// Inicializar siempre el contador global
-document.addEventListener('DOMContentLoaded', () => {
-    actualizarContadorGlobal();
-});
+// 8. Función de inicialización del carrito
+function inicializarCarrito() {
+    // Verificar si estamos en la página del carrito
+    const emptyCart = document.getElementById('emptyCart');
+    if (emptyCart) {
+        // Esperar a que el DOM esté listo
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', async () => {
+                try {
+                    console.log('Inicializando página del carrito...');
+                    if (productosGlobal.length === 0) {
+                        await cargarProductos();
+                    }
+                    mostrarCarrito();
+                } catch (error) {
+                    console.error('Error en inicialización:', error);
+                    mostrarMensaje('Error al cargar el carrito', 'error');
+                }
+            });
+        } else {
+            // Si el DOM ya está listo
+            (async () => {
+                try {
+                    console.log('DOM ya cargado, inicializando carrito...');
+                    if (productosGlobal.length === 0) {
+                        await cargarProductos();
+                    }
+                    mostrarCarrito();
+                } catch (error) {
+                    console.error('Error en inicialización:', error);
+                    mostrarMensaje('Error al cargar el carrito', 'error');
+                }
+            })();
+        }
+    }
+}
 
+// 9. Inicializar siempre el contador global
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        actualizarContadorGlobal();
+    });
+} else {
+    actualizarContadorGlobal();
+}
+
+// Inicializar carrito
 inicializarCarrito();
 
 // Exportar funciones para uso en otros módulos
-export { obtenerCarrito, guardarCarrito };
+export { guardarCarrito };

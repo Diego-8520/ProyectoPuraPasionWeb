@@ -1,26 +1,9 @@
 // detalleProducto.js - Manejo de la página de detalle del producto
 import { agregarAlCarrito } from './carritoCompras.js';
-import { productosGlobal } from './estadoGlobal.js';
+import { productosGlobal, actualizarContadorGlobal } from './estadoGlobal.js';
+import { cargarProductos } from './cargueInventario.js';
 
-// 1. Configuración de la API
-const API_URL = 'https://localhost:7272/api';
-let productosGlobal = [];
-
-// 2. Función para cargar todos los productos desde la API
-async function cargarProductos() {
-    try {
-        const response = await fetch(`${API_URL}/Productos`);
-        if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
-        const productos = await response.json();
-        productosGlobal = productos;
-        return productos;
-    } catch (error) {
-        console.error('Error al cargar productos:', error);
-        return [];
-    }
-}
-
-// 3. Función para mostrar productos relacionados
+// 1. Función para mostrar productos relacionados
 function mostrarProductosRelacionados(productos, contenedorId) {
     const contenedor = document.getElementById(contenedorId);
     if (!contenedor) return;
@@ -32,7 +15,9 @@ function mostrarProductosRelacionados(productos, contenedorId) {
         card.className = 'product-card';
         card.innerHTML = `
             <div class="product-image-container">
-                <img src="${prod.imagenUrl || './Frontend/assets/img/default-product.jpg'}" alt="${prod.nombre}" class="product-image" />
+                <img src="${prod.imagenUrl || './Frontend/assets/img/default-product.jpg'}" 
+                     alt="${prod.nombre}" 
+                     class="product-image" />
             </div>
             <div class="product-info">
                 <h3 class="product-title">${prod.nombre}</h3>
@@ -51,55 +36,79 @@ function mostrarProductosRelacionados(productos, contenedorId) {
     });
 }
 
-// 4. Función principal para mostrar el detalle del producto
+// 2. Función principal para mostrar el detalle del producto
 async function mostrarDetalleProducto() {
     const params = new URLSearchParams(window.location.search);
     const productoId = params.get('id');
 
     if (!productoId) {
-        document.getElementById('productTitle').textContent = "Producto no especificado";
+        const titleElement = document.getElementById('productTitle');
+        if (titleElement) {
+            titleElement.textContent = "Producto no especificado";
+        }
         return;
     }
 
     try {
-        // Cargar todos los productos si no están cargados
+        // Cargar productos si no están cargados
         if (productosGlobal.length === 0) {
-            productosGlobal = await cargarProductos();
+            await cargarProductos();
         }
 
         // Buscar el producto por ID
         const producto = productosGlobal.find(p => p.id == productoId);
         
         if (!producto) {
-            document.getElementById('productTitle').textContent = "Producto no encontrado";
+            const titleElement = document.getElementById('productTitle');
+            if (titleElement) {
+                titleElement.textContent = "Producto no encontrado";
+            }
             return;
         }
 
-        // Mostrar datos del producto
-        document.getElementById('productTitle').textContent = producto.nombre;
-        document.getElementById('productPrice').textContent = `$${producto.precio.toLocaleString()}`;
-        document.getElementById('productDescription').textContent = producto.descripcion || 'Sin descripción';
-        document.getElementById('productStock').textContent = producto.stock > 0 
-            ? `Disponible (${producto.stock} unidades)` 
-            : 'Agotado';
+        // Actualizar elementos del DOM si existen
+        const titleElement = document.getElementById('productTitle');
+        if (titleElement) titleElement.textContent = producto.nombre;
+        
+        const priceElement = document.getElementById('productPrice');
+        if (priceElement) priceElement.textContent = `$${producto.precio.toLocaleString()}`;
+        
+        const descriptionElement = document.getElementById('productDescription');
+        if (descriptionElement) {
+            descriptionElement.textContent = producto.descripcion || 'Sin descripción disponible';
+        }
+        
+        const stockElement = document.getElementById('productStock');
+        if (stockElement) {
+            stockElement.textContent = producto.stock > 0 
+                ? `Disponible (${producto.stock} unidades)` 
+                : 'Agotado';
+        }
 
         // Imagen principal
         const imgElement = document.getElementById('productImage');
-        imgElement.src = producto.imagenUrl || './Frontend/assets/img/default-product.jpg';
-        imgElement.alt = producto.nombre;
+        if (imgElement) {
+            imgElement.src = producto.imagenUrl || './Frontend/assets/img/default-product.jpg';
+            imgElement.alt = producto.nombre;
+        }
 
-        // Thumbnails (si tienes imágenes adicionales en tu API)
+        // Thumbnails (si existen)
         const thumbnailsContainer = document.getElementById('thumbnails');
-        if (producto.imagenesAdicionales && producto.imagenesAdicionales.length > 0) {
-            const imagenes = Array.isArray(producto.imagenesAdicionales) 
-                ? producto.imagenesAdicionales 
-                : producto.imagenesAdicionales.split(',');
-                
-            thumbnailsContainer.innerHTML = imagenes.map(img => `
-                <img src="${img.trim()}" alt="Miniatura" class="thumbnail" onclick="cambiarImagenPrincipal('${img.trim()}')">
-            `).join('');
-        } else {
-            thumbnailsContainer.innerHTML = '';
+        if (thumbnailsContainer) {
+            if (producto.imagenesAdicionales && producto.imagenesAdicionales.length > 0) {
+                const imagenes = Array.isArray(producto.imagenesAdicionales) 
+                    ? producto.imagenesAdicionales 
+                    : producto.imagenesAdicionales.split(',');
+                    
+                thumbnailsContainer.innerHTML = imagenes.map(img => `
+                    <img src="${img.trim()}" 
+                         alt="Miniatura" 
+                         class="thumbnail" 
+                         onclick="cambiarImagenPrincipal('${img.trim()}')">
+                `).join('');
+            } else {
+                thumbnailsContainer.innerHTML = '';
+            }
         }
 
         // WhatsApp link
@@ -112,7 +121,7 @@ async function mostrarDetalleProducto() {
         // Configurar funcionalidad de carrito
         configurarCarritoDetalle(producto.id);
 
-        // Productos relacionados (misma categoría, excluyendo el actual)
+        // Productos relacionados
         const relacionados = productosGlobal.filter(p => 
             p.categoria === producto.categoria && 
             p.id !== producto.id
@@ -120,15 +129,22 @@ async function mostrarDetalleProducto() {
         
         mostrarProductosRelacionados(relacionados, 'relatedProducts');
 
+        // Actualizar contador del carrito
+        actualizarContadorGlobal();
+
     } catch (error) {
-        console.error('Error:', error);
-        document.getElementById('productTitle').textContent = "Error al cargar el producto";
+        console.error('Error al mostrar detalle:', error);
+        const titleElement = document.getElementById('productTitle');
+        if (titleElement) {
+            titleElement.textContent = "Error al cargar el producto";
+        }
     }
 }
 
-// 5. Configurar funcionalidad de carrito en página de detalle
+// 3. Configurar funcionalidad de carrito en página de detalle
 function configurarCarritoDetalle(productoId) {
     const productActions = document.querySelector('.product-actions');
+    if (!productActions) return;
     
     // Crear contenedor de cantidad si no existe
     let quantityContainer = document.querySelector('.quantity-selector');
@@ -138,14 +154,14 @@ function configurarCarritoDetalle(productoId) {
         quantityContainer.innerHTML = `
             <label for="productQuantity">Cantidad:</label>
             <div class="quantity-controls">
+                <button class="quantity-btn decrease" type="button">-</button>
                 <input type="number" id="productQuantity" value="1" min="1" max="30">
+                <button class="quantity-btn increase" type="button">+</button>
             </div>
         `;
         
         // Insertar antes de los botones de acción
-        if (productActions) {
-            productActions.parentNode.insertBefore(quantityContainer, productActions);
-        }
+        productActions.parentNode.insertBefore(quantityContainer, productActions);
     }
 
     // Crear o actualizar botón de agregar al carrito
@@ -154,10 +170,7 @@ function configurarCarritoDetalle(productoId) {
         addToCartBtn = document.createElement('button');
         addToCartBtn.className = 'btn btn-primary add-to-cart-detail';
         addToCartBtn.innerHTML = '<i class="fas fa-shopping-cart"></i> Agregar al Carrito';
-        
-        if (productActions) {
-            productActions.appendChild(addToCartBtn);
-        }
+        productActions.appendChild(addToCartBtn);
     }
 
     // Event listeners para controles de cantidad
@@ -166,31 +179,38 @@ function configurarCarritoDetalle(productoId) {
     const increaseBtn = document.querySelector('.quantity-btn.increase');
 
     if (decreaseBtn && increaseBtn && quantityInput) {
-        decreaseBtn.addEventListener('click', () => {
+        // Remover listeners anteriores
+        const newDecreaseBtn = decreaseBtn.cloneNode(true);
+        const newIncreaseBtn = increaseBtn.cloneNode(true);
+        decreaseBtn.parentNode.replaceChild(newDecreaseBtn, decreaseBtn);
+        increaseBtn.parentNode.replaceChild(newIncreaseBtn, increaseBtn);
+
+        newDecreaseBtn.addEventListener('click', () => {
             let value = parseInt(quantityInput.value) || 1;
             if (value > 1) {
                 quantityInput.value = value - 1;
             }
         });
 
-        increaseBtn.addEventListener('click', () => {
+        newIncreaseBtn.addEventListener('click', () => {
             let value = parseInt(quantityInput.value) || 1;
-            if (value < 10) {
+            if (value < 30) {
                 quantityInput.value = value + 1;
             }
         });
     }
 
     // Event listener para botón de agregar al carrito
-    if (addToCartBtn) {
-        addToCartBtn.onclick = () => {
-            const quantity = parseInt(quantityInput?.value) || 1;
-            agregarAlCarrito(productoId, quantity);
-        };
-    }
+    const newAddToCartBtn = addToCartBtn.cloneNode(true);
+    addToCartBtn.parentNode.replaceChild(newAddToCartBtn, addToCartBtn);
+    
+    newAddToCartBtn.addEventListener('click', () => {
+        const quantity = parseInt(quantityInput?.value) || 1;
+        agregarAlCarrito(productoId, quantity);
+    });
 }
 
-// 6. Función para cambiar imagen principal
+// 4. Función para cambiar imagen principal
 function cambiarImagenPrincipal(nuevaImagenUrl) {
     const imgPrincipal = document.getElementById('productImage');
     if (imgPrincipal) {
@@ -206,17 +226,21 @@ function cambiarImagenPrincipal(nuevaImagenUrl) {
     }
 }
 
-// 7. Función de inicialización
+// 5. Función de inicialización
 async function inicializar() {
     try {
+        // Actualizar contador del carrito primero
+        actualizarContadorGlobal();
+        
+        // Luego cargar el detalle del producto
         await mostrarDetalleProducto();
     } catch (error) {
         console.error('Error al inicializar:', error);
     }
 }
 
-// 8. Event listener para cuando se carga el DOM
+// 6. Event listener para cuando se carga el DOM
 document.addEventListener('DOMContentLoaded', inicializar);
 
-// 9. Hacer la función disponible globalmente para los thumbnails
+// 7. Hacer la función disponible globalmente para los thumbnails
 window.cambiarImagenPrincipal = cambiarImagenPrincipal;
