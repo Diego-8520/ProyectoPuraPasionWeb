@@ -112,6 +112,7 @@
     --container-max-width: 1200px;    /* Ancho máximo del contenedor principal */
     --container-padding: 20px;        /* Padding lateral del contenedor */
     
+    
     /* Z-index layers */
     --z-dropdown: 100;       /* Elementos desplegables */
     --z-sticky: 200;         /* Elementos sticky */

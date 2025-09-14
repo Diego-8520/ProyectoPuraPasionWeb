@@ -62,3 +62,63 @@ export function setupMobileMenu() {
         });
     }
 }
+
+// Actualiza el contador del carrito en la barra de navegación
+export function actualizarContadorCarrito(cantidad) {
+    const contadores = document.querySelectorAll('.cart-count');
+    contadores.forEach(contador => {
+        contador.textContent = cantidad;
+    });
+}
+
+// Función para mostrar mensajes tipo toast (en la esquina superior derecha)
+export function mostrarMensaje(mensaje, tipo = 'success') {
+    // Crear elemento toast si no existe
+    let toastContainer = document.getElementById('toast-container');
+    if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.id = 'toast-container';
+        toastContainer.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        `;
+        document.body.appendChild(toastContainer);
+    }
+
+    // Crear toast individual
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${tipo}`;
+    toast.innerHTML = `
+        <div class="toast-content">
+            <i class="fas ${tipo === 'success' ? 'fa-check-circle' : 
+                          tipo === 'error' ? 'fa-exclamation-circle' : 
+                          'fa-info-circle'}"></i>
+            <span>${mensaje}</span>
+        </div>
+    `;
+    
+    // Estilos básicos del toast (puedes mover esto a CSS después)
+    toast.style.cssText = `
+        background: ${tipo === 'success' ? '#4CAF50' : 
+                     tipo === 'error' ? '#f44336' : '#ff9800'};
+        color: white;
+        padding: 12px 20px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        animation: slideIn 0.3s ease;
+    `;
+
+    toastContainer.appendChild(toast);
+
+    // Auto-eliminar después de 3 segundos
+    setTimeout(() => {
+        toast.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+

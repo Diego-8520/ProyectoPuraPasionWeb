@@ -1,6 +1,7 @@
 // detalleProducto.js - Manejo de la página de detalle del producto
+import { agregarAlCarrito } from './carritoCompras.js';
 
-// 1. Configuración de la API (igual que en cargueInventario.js)
+// 1. Configuración de la API
 const API_URL = 'https://localhost:7272/api';
 let productosGlobal = [];
 
@@ -8,13 +9,10 @@ let productosGlobal = [];
 async function cargarProductos() {
     try {
         const response = await fetch(`${API_URL}/Productos`);
-        
         if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
-        
         const productos = await response.json();
         productosGlobal = productos;
         return productos;
-        
     } catch (error) {
         console.error('Error al cargar productos:', error);
         return [];
@@ -33,7 +31,7 @@ function mostrarProductosRelacionados(productos, contenedorId) {
         card.className = 'product-card';
         card.innerHTML = `
             <div class="product-image-container">
-                <img src="${prod.imagenUrl || 'img/default-product.jpg'}" alt="${prod.nombre}" class="product-image" />
+                <img src="${prod.imagenUrl || './Frontend/assets/img/default-product.jpg'}" alt="${prod.nombre}" class="product-image" />
             </div>
             <div class="product-info">
                 <h3 class="product-title">${prod.nombre}</h3>
@@ -86,12 +84,12 @@ async function mostrarDetalleProducto() {
 
         // Imagen principal
         const imgElement = document.getElementById('productImage');
-        imgElement.src = producto.imagenUrl || './img/default-product.jpg';
+        imgElement.src = producto.imagenUrl || './Frontend/assets/img/default-product.jpg';
         imgElement.alt = producto.nombre;
 
         // Thumbnails (si tienes imágenes adicionales en tu API)
         const thumbnailsContainer = document.getElementById('thumbnails');
-        if (producto.imagenesAdicionales) {
+        if (producto.imagenesAdicionales && producto.imagenesAdicionales.length > 0) {
             const imagenes = Array.isArray(producto.imagenesAdicionales) 
                 ? producto.imagenesAdicionales 
                 : producto.imagenesAdicionales.split(',');
@@ -99,12 +97,19 @@ async function mostrarDetalleProducto() {
             thumbnailsContainer.innerHTML = imagenes.map(img => `
                 <img src="${img.trim()}" alt="Miniatura" class="thumbnail" onclick="cambiarImagenPrincipal('${img.trim()}')">
             `).join('');
+        } else {
+            thumbnailsContainer.innerHTML = '';
         }
 
         // WhatsApp link
         const mensaje = `Hola! Estoy interesado en: ${producto.nombre} - ${window.location.href}`;
-        document.getElementById('whatsappLink').href = 
-            `https://wa.me/573043401416?text=${encodeURIComponent(mensaje)}`;
+        const whatsappLink = document.getElementById('whatsappLink');
+        if (whatsappLink) {
+            whatsappLink.href = `https://wa.me/573043401416?text=${encodeURIComponent(mensaje)}`;
+        }
+
+        // Configurar funcionalidad de carrito
+        configurarCarritoDetalle(producto.id);
 
         // Productos relacionados (misma categoría, excluyendo el actual)
         const relacionados = productosGlobal.filter(p => 
@@ -120,13 +125,87 @@ async function mostrarDetalleProducto() {
     }
 }
 
-// 5. Función para cambiar imagen principal (si tienes thumbnails)
-function cambiarImagenPrincipal(nuevaImagenUrl) {
-    const imgPrincipal = document.getElementById('productImage');
-    imgPrincipal.src = nuevaImagenUrl;
+// 5. Configurar funcionalidad de carrito en página de detalle
+function configurarCarritoDetalle(productoId) {
+    const productActions = document.querySelector('.product-actions');
+    
+    // Crear contenedor de cantidad si no existe
+    let quantityContainer = document.querySelector('.quantity-selector');
+    if (!quantityContainer) {
+        quantityContainer = document.createElement('div');
+        quantityContainer.className = 'quantity-selector';
+        quantityContainer.innerHTML = `
+            <label for="productQuantity">Cantidad:</label>
+            <div class="quantity-controls">
+                <input type="number" id="productQuantity" value="1" min="1" max="30">
+            </div>
+        `;
+        
+        // Insertar antes de los botones de acción
+        if (productActions) {
+            productActions.parentNode.insertBefore(quantityContainer, productActions);
+        }
+    }
+
+    // Crear o actualizar botón de agregar al carrito
+    let addToCartBtn = document.querySelector('.add-to-cart-detail');
+    if (!addToCartBtn) {
+        addToCartBtn = document.createElement('button');
+        addToCartBtn.className = 'btn btn-primary add-to-cart-detail';
+        addToCartBtn.innerHTML = '<i class="fas fa-shopping-cart"></i> Agregar al Carrito';
+        
+        if (productActions) {
+            productActions.appendChild(addToCartBtn);
+        }
+    }
+
+    // Event listeners para controles de cantidad
+    const quantityInput = document.getElementById('productQuantity');
+    const decreaseBtn = document.querySelector('.quantity-btn.decrease');
+    const increaseBtn = document.querySelector('.quantity-btn.increase');
+
+    if (decreaseBtn && increaseBtn && quantityInput) {
+        decreaseBtn.addEventListener('click', () => {
+            let value = parseInt(quantityInput.value) || 1;
+            if (value > 1) {
+                quantityInput.value = value - 1;
+            }
+        });
+
+        increaseBtn.addEventListener('click', () => {
+            let value = parseInt(quantityInput.value) || 1;
+            if (value < 10) {
+                quantityInput.value = value + 1;
+            }
+        });
+    }
+
+    // Event listener para botón de agregar al carrito
+    if (addToCartBtn) {
+        addToCartBtn.onclick = () => {
+            const quantity = parseInt(quantityInput?.value) || 1;
+            agregarAlCarrito(productoId, quantity);
+        };
+    }
 }
 
-// 6. Función de inicialización
+// 6. Función para cambiar imagen principal
+function cambiarImagenPrincipal(nuevaImagenUrl) {
+    const imgPrincipal = document.getElementById('productImage');
+    if (imgPrincipal) {
+        imgPrincipal.src = nuevaImagenUrl;
+        
+        // Destacar la miniatura seleccionada
+        document.querySelectorAll('.thumbnail').forEach(thumb => {
+            thumb.classList.remove('active');
+            if (thumb.src === nuevaImagenUrl) {
+                thumb.classList.add('active');
+            }
+        });
+    }
+}
+
+// 7. Función de inicialización
 async function inicializar() {
     try {
         await mostrarDetalleProducto();
@@ -135,8 +214,8 @@ async function inicializar() {
     }
 }
 
-// 7. Event listener para cuando se carga el DOM
+// 8. Event listener para cuando se carga el DOM
 document.addEventListener('DOMContentLoaded', inicializar);
 
-// 8. Hacer la función disponible globalmente para los thumbnails
+// 9. Hacer la función disponible globalmente para los thumbnails
 window.cambiarImagenPrincipal = cambiarImagenPrincipal;

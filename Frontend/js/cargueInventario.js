@@ -1,4 +1,5 @@
-import { aplicarFiltros } from './funcionesWeb.js';
+import { aplicarFiltros, setupMobileMenu } from './funcionesWeb.js';
+import { agregarAlCarrito } from './carritoCompras.js';
 
 // 1. Configuración de la API
 const API_URL = 'https://localhost:7272/api'; // API local
@@ -8,8 +9,7 @@ export let productosGlobal = [];
 export async function cargarProductos() {
     try {
         // 2.1. Hacer la petición a tu endpoint .NET
-        const response = await fetch(`${API_URL}/Productos`); // Cambiado a tu endpoint
-        
+        const response = await fetch(`${API_URL}/Productos`);
         if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
         
         // 2.2. Procesar la respuesta
@@ -42,11 +42,11 @@ export function mostrarProductos(productos) {
         return;
     }
 
-    // 3.2. Generar las tarjetas de productos
+    // 3.2. Generar las tarjetas de productos con botón de carrito
     contenedor.innerHTML = productos.map(prod => `
-        <div class="product-card">
+        <div class="product-card" data-product-id="${prod.id}">
             <div class="product-image-container">
-                <img src="${prod.imagenUrl || 'img/default-product.jpg'}" 
+                <img src="${prod.imagenUrl || './Frontend/assets/img/default-product.jpg'}" 
                      alt="${prod.nombre}" 
                      class="product-image">
             </div>
@@ -60,10 +60,18 @@ export function mostrarProductos(productos) {
                     <a href="detalleProducto.html?id=${prod.id}" class="btn btn-small">
                         Ver Detalle
                     </a>
+                    <!-- Botón principal de agregar al carrito -->
+                    <button class="btn btn-primary btn-small add-to-cart-btn" 
+                            data-product-id="${prod.id}">
+                        <i class="fas fa-shopping-cart"></i> Agregar
+                    </button>
                 </div>
             </div>
         </div>
     `).join('');
+
+    // 3.3. Agregar event listeners a los botones de carrito
+    agregarEventListenersCarrito();
 }
 
 // 4. Función para llenar el dropdown de categorías
@@ -82,7 +90,29 @@ function llenarOpcionesCategoria(productos) {
     });
 }
 
-// 5. Función para mostrar errores
+// 5. Función para agregar event listeners a los botones de carrito
+function agregarEventListenersCarrito() {
+    // Botones principales de agregar al carrito
+    document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const productId = parseInt(e.currentTarget.getAttribute('data-product-id'));
+            agregarAlCarrito(productId);
+        });
+    });
+
+    // Botones de agregado rápido (en la imagen)
+    document.querySelectorAll('.quick-add-cart').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation(); // Evita que se active el link de la card
+            const productId = parseInt(e.currentTarget.getAttribute('data-product-id'));
+            agregarAlCarrito(productId);
+        });
+    });
+}
+
+// 6. Función para mostrar errores
 function mostrarError() {
     document.getElementById('nuestroCatalogo').innerHTML = `
         <div class="error-message">
