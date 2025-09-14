@@ -27,6 +27,11 @@ export async function mostrarCarrito() {
     if (carrito.length === 0) {
         emptyCart.style.display = 'block';
         cartWithItems.style.display = 'none';
+        
+        // ✅ ACTUALIZAR LOS TOTALES A 0 CUANDO EL CARRITO ESTÁ VACÍO
+        if (subtotalElement) subtotalElement.textContent = '$0';
+        if (totalContainer) totalContainer.textContent = '$0';
+        
         actualizarContadorGlobal();
         return;
     }
@@ -45,32 +50,32 @@ export async function mostrarCarrito() {
             subtotal += itemTotal;
             
             const itemDiv = document.createElement('div');
-            itemDiv.className = 'product-card';
-            itemDiv.innerHTML = `
-                <div class="product-image-container">
-                    <img src="${producto.imagenUrl || './Frontend/assets/img/default-product.jpg'}" 
-                         alt="${producto.nombre}"
-                         class="product-image" />
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">${producto.nombre}</h3>
-                    <p class="product-category">${producto.categoria}</p>
-                    <div class="product-price">
-                        <span class="current-price">$${producto.precio.toLocaleString()}</span>
+                itemDiv.className = 'product-card';
+                itemDiv.innerHTML = `
+                    <div class="product-image-container">
+                        <img src="${producto.imagenUrl || './Frontend/assets/img/default-product.jpg'}" 
+                            alt="${producto.nombre}"
+                            class="product-image" />
                     </div>
-                </div>
-                <div class="btn btn-small">
-                    <button class="quantity-btn" data-id="${producto.id}" data-action="decrease">-</button>
-                    <span class="quantity-number">${item.cantidad}</span>
-                    <button class="quantity-btn" data-id="${producto.id}" data-action="increase">+</button>
-                </div>
-                <div class="product-price">
-                    <span>$${itemTotal.toLocaleString()}</span>
-                </div>
-                <button class=""btn btn-primary btn-small add-to-cart-btn" data-id="${producto.id}">
-                    <i class="fas fa-trash"></i>
-                </button>
-            `;
+                    <div class="product-info">
+                        <h3 class="product-title">${producto.nombre}</h3>
+                        <p class="product-category">${producto.categoria}</p>
+                        <div class="product-price">
+                            <span class="current-price">$${producto.precio.toLocaleString()}</span>
+                        </div>
+                    </div>
+                    <div class="product-actions">
+                        <button class="quantity-btn" data-id="${producto.id}" data-action="decrease">-</button>
+                        <span class="quantity-number">${item.cantidad}</span>
+                        <button class="quantity-btn" data-id="${producto.id}" data-action="increase">+</button>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-description">$${itemTotal.toLocaleString()}</span>
+                    </div>
+                    <button class="btn btn-primary btn-small remove-btn" data-id="${producto.id}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                `;
             carritoContainer.appendChild(itemDiv);
         }
     });
@@ -86,12 +91,15 @@ export async function mostrarCarrito() {
 
 // 3. Función para agregar event listeners a los botones del carrito
 function agregarEventListenersCarrito() {
+    console.log('Agregando event listeners al carrito...');
+
     // Botones de eliminar
     document.querySelectorAll('.remove-btn').forEach(btn => {
+        console.log('Botón eliminar encontrado:', btn);
         btn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            const productoId = parseInt(e.currentTarget.getAttribute('data-id'));
+            const productoId = e.currentTarget.getAttribute('data-id'); // ELIMINAR parseInt
             console.log('Eliminando producto con ID:', productoId);
             eliminarDelCarrito(productoId);
         });
@@ -99,11 +107,13 @@ function agregarEventListenersCarrito() {
 
     // Botones de cantidad (aumentar/disminuir)
     document.querySelectorAll('.quantity-btn').forEach(btn => {
+         console.log('Botón cantidad encontrado:', btn);
         btn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            const productoId = parseInt(e.currentTarget.getAttribute('data-id'));
+            const productoId = e.currentTarget.getAttribute('data-id'); // ELIMINAR parseInt
             const action = e.currentTarget.getAttribute('data-action');
+            console.log('Botón clickeado - ID:', productoId, 'Action:', action);
             actualizarCantidad(productoId, action);
         });
     });
@@ -205,10 +215,7 @@ function procederAlPago() {
 
 // 7. Función para agregar productos al carrito
 export function agregarAlCarrito(productoId, cantidad = 1) {
-    console.log('Agregando al carrito:', productoId, 'cantidad:', cantidad);
-    
-    // Asegurarse de que el productoId sea un número
-    productoId = parseInt(productoId);
+    console.log('Recibiendo en agregarAlCarrito - ID:', productoId, 'Tipo:', typeof productoId, 'cantidad:', cantidad);
     
     // Crear una copia del carrito actual
     const nuevoCarrito = [...carrito];

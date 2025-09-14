@@ -1,5 +1,4 @@
 // estadoGlobal.js - Estado global compartido entre módulos
-// Versión sin localStorage para compatibilidad
 
 // Estado global de productos
 export let productosGlobal = [];
@@ -8,7 +7,6 @@ export let productosGlobal = [];
 export let carrito = [];
 
 // Inicializar carrito desde localStorage si está disponible
-// (Solo para desarrollo local, no funcionará en Claude.ai)
 try {
     const carritoGuardado = localStorage.getItem('carrito');
     if (carritoGuardado) {
@@ -28,7 +26,7 @@ export function guardarCarrito(nuevoCarrito) {
             localStorage.setItem('carrito', JSON.stringify(carrito));
         }
     } catch (error) {
-        // Silenciosamente fallar si localStorage no está disponible
+        // Si localStorage no está disponible
         console.log('Carrito guardado solo en memoria');
     }
     

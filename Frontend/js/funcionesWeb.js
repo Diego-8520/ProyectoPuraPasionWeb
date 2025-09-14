@@ -92,7 +92,7 @@ export function mostrarMensaje(mensaje, tipo = 'success') {
         </div>
     `;
     
-    // Estilos básicos del toast (puedes mover esto a CSS después)
+    // Estilos básicos del toast (mover esto a CSS después)
     toast.style.cssText = `
         background: ${tipo === 'success' ? '#4CAF50' : 
                      tipo === 'error' ? '#f44336' : '#ff9800'};
@@ -108,10 +108,10 @@ export function mostrarMensaje(mensaje, tipo = 'success') {
 
     toastContainer.appendChild(toast);
 
-    // Auto-eliminar después de 3 segundos
+    // Auto-eliminar después de 2 segundos
     setTimeout(() => {
-        toast.style.animation = 'slideOut 0.3s ease';
-        setTimeout(() => toast.remove(), 300);
-    }, 3000);
+        toast.style.animation = 'slideOut 0.2s ease';
+        setTimeout(() => toast.remove(), 200);
+    }, 2000);
 }
 

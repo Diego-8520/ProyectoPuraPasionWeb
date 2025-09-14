@@ -154,9 +154,7 @@ function configurarCarritoDetalle(productoId) {
         quantityContainer.innerHTML = `
             <label for="productQuantity">Cantidad:</label>
             <div class="quantity-controls">
-                <button class="quantity-btn decrease" type="button">-</button>
                 <input type="number" id="productQuantity" value="1" min="1" max="30">
-                <button class="quantity-btn increase" type="button">+</button>
             </div>
         `;
         

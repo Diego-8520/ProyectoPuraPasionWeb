@@ -118,11 +118,15 @@ function llenarOpcionesCategoria(productos) {
 
 // 5. Función para agregar event listeners
 function agregarEventListenersCarrito() {
-    // Botones de agregar al carrito
     document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
-            const productId = parseInt(e.currentTarget.getAttribute('data-product-id'));
+            const rawId = e.currentTarget.getAttribute('data-product-id');
+            console.log('ID crudo:', rawId, 'Tipo:', typeof rawId);
+            
+            const productId = e.currentTarget.getAttribute('data-product-id');
+            console.log('ID procesado:', productId, 'Tipo:', typeof productId);
+            
             agregarAlCarrito(productId);
         });
     });
