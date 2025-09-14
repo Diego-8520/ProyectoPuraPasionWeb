@@ -1,9 +1,9 @@
 import { aplicarFiltros, setupMobileMenu } from './funcionesWeb.js';
 import { agregarAlCarrito } from './carritoCompras.js';
+import { productosGlobal } from './estadoGlobal.js';
 
 // 1. Configuración de la API
 const API_URL = 'https://localhost:7272/api'; // API local
-export let productosGlobal = [];
 
 // 2. Función principal para cargar productos
 export async function cargarProductos() {
@@ -14,9 +14,12 @@ export async function cargarProductos() {
         
         // 2.2. Procesar la respuesta
         const productos = await response.json();
-        productosGlobal = productos;
+        
+        // 2.3. Actualizar el array global SIN reasignar la variable
+        productosGlobal.length = 0; // Vaciar el array existente
+        productosGlobal.push(...productos); // Agregar los nuevos productos
 
-        // 2.3. Actualizar la UI
+        // 2.4. Actualizar la UI
         llenarOpcionesCategoria(productos);
         mostrarProductos(productos);
         aplicarFiltros();
@@ -26,6 +29,7 @@ export async function cargarProductos() {
         mostrarError();
     }
 }
+
 
 // 3. Función para mostrar productos en el HTML
 export function mostrarProductos(productos) {

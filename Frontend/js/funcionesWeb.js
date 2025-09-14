@@ -1,4 +1,5 @@
-import { productosGlobal, mostrarProductos } from './cargueInventario.js';
+import { mostrarProductos } from './cargueInventario.js';
+import { productosGlobal } from './estadoGlobal.js';
 
 function limpiarTexto(texto) {
     return texto
@@ -61,14 +62,6 @@ export function setupMobileMenu() {
             });
         });
     }
-}
-
-// Actualiza el contador del carrito en la barra de navegación
-export function actualizarContadorCarrito(cantidad) {
-    const contadores = document.querySelectorAll('.cart-count');
-    contadores.forEach(contador => {
-        contador.textContent = cantidad;
-    });
 }
 
 // Función para mostrar mensajes tipo toast (en la esquina superior derecha)

@@ -1,5 +1,6 @@
 // detalleProducto.js - Manejo de la página de detalle del producto
 import { agregarAlCarrito } from './carritoCompras.js';
+import { productosGlobal } from './estadoGlobal.js';
 
 // 1. Configuración de la API
 const API_URL = 'https://localhost:7272/api';
