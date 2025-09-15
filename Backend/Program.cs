@@ -12,21 +12,7 @@ DotNetEnv.Env.Load();
 
 // --- Configuración de Servicios ---
 // 1. Contexto de la base de datos (PostgreSQL con Supabase)
-//var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
-// DEBUG: Verifica qué valor tiene la connection string
-var connectionStringFromEnv = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
-Console.WriteLine($"Desde .env: {connectionStringFromEnv}");
-
-var connectionStringFromConfig = builder.Configuration.GetConnectionString("DefaultConnection");
-Console.WriteLine($"Desde Configuración: {connectionStringFromConfig}");
-
-// Usa explícitamente la variable de entorno si está disponible
-var connectionString = !string.IsNullOrEmpty(connectionStringFromEnv)
-    ? connectionStringFromEnv
-    : connectionStringFromConfig;
-
-Console.WriteLine($"Cadena final: {connectionString}");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
