@@ -3,12 +3,31 @@ using Backend.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using DotNetEnv;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// --- Carga variables de entorno desde .env ---
+DotNetEnv.Env.Load();
+
 // --- Configuración de Servicios ---
 // 1. Contexto de la base de datos (PostgreSQL con Supabase)
-var connectionString = "Host=db.abqrbbqquhzkgbkmizpu.supabase.co;Port=5432;Database=postgres;Username=postgres;Password=Supertienda19999;SSL Mode=Require;Trust Server Certificate=true;";
+//var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+// DEBUG: Verifica qué valor tiene la connection string
+var connectionStringFromEnv = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
+Console.WriteLine($"Desde .env: {connectionStringFromEnv}");
+
+var connectionStringFromConfig = builder.Configuration.GetConnectionString("DefaultConnection");
+Console.WriteLine($"Desde Configuración: {connectionStringFromConfig}");
+
+// Usa explícitamente la variable de entorno si está disponible
+var connectionString = !string.IsNullOrEmpty(connectionStringFromEnv)
+    ? connectionStringFromEnv
+    : connectionStringFromConfig;
+
+Console.WriteLine($"Cadena final: {connectionString}");
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
 
